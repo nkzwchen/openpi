@@ -2,18 +2,31 @@ from collections.abc import Iterator, Sequence
 import logging
 import multiprocessing
 import os
+import pathlib
 import typing
 from typing import Literal, Protocol, SupportsIndex, TypeVar
 
 import jax
 import jax.numpy as jnp
-import lerobot.common.datasets.lerobot_dataset as lerobot_dataset
+try:
+    import lerobot.common.datasets.lerobot_dataset as lerobot_dataset
+except ModuleNotFoundError:
+    import types
+
+    from lerobot.datasets.dataset_metadata import LeRobotDatasetMetadata
+    from lerobot.datasets.lerobot_dataset import LeRobotDataset
+
+    lerobot_dataset = types.SimpleNamespace(
+        LeRobotDatasetMetadata=LeRobotDatasetMetadata,
+        LeRobotDataset=LeRobotDataset,
+    )
 import numpy as np
 import torch
 
 import openpi.models.model as _model
 import openpi.training.config as _config
 from openpi.training.droid_rlds_dataset import DroidRldsDataset
+import openpi.training.local_lerobot_v3_dataset as _local_lerobot_v3_dataset
 import openpi.transforms as _transforms
 
 T_co = TypeVar("T_co", covariant=True)
@@ -127,8 +140,28 @@ class FakeDataset(Dataset):
         return self._num_samples
 
 
+def _lerobot_tasks_to_prompt_map(tasks: typing.Any) -> dict[int, str]:
+    if isinstance(tasks, dict):
+        prompt_map: dict[int, str] = {}
+        for key, value in tasks.items():
+            try:
+                prompt_map[int(key)] = str(value)
+            except (TypeError, ValueError):
+                prompt_map[int(value)] = str(key)
+        return prompt_map
+
+    if hasattr(tasks, "iterrows"):
+        return {int(row["task_index"]): str(task) for task, row in tasks.iterrows()}
+
+    raise TypeError(f"Unsupported LeRobot tasks mapping type: {type(tasks)!r}")
+
+
 def create_torch_dataset(
-    data_config: _config.DataConfig, action_horizon: int, model_config: _model.BaseModelConfig
+    data_config: _config.DataConfig,
+    action_horizon: int,
+    model_config: _model.BaseModelConfig,
+    *,
+    decode_videos: bool = True,
 ) -> Dataset:
     """Create a dataset for training."""
     repo_id = data_config.repo_id
@@ -136,6 +169,17 @@ def create_torch_dataset(
         raise ValueError("Repo ID is not set. Cannot create dataset.")
     if repo_id == "fake":
         return FakeDataset(model_config, num_samples=1024)
+
+    if _local_lerobot_v3_dataset.is_lerobot_v3_dataset(repo_id):
+        dataset = _local_lerobot_v3_dataset.LocalLeRobotV3Dataset(
+            pathlib.Path(repo_id),
+            action_horizon=action_horizon,
+            action_sequence_keys=data_config.action_sequence_keys,
+            decode_videos=decode_videos,
+        )
+        if data_config.prompt_from_task:
+            dataset = TransformedDataset(dataset, [_transforms.PromptFromLeRobotTask(dataset.tasks)])
+        return dataset
 
     dataset_meta = lerobot_dataset.LeRobotDatasetMetadata(repo_id)
     dataset = lerobot_dataset.LeRobotDataset(
@@ -146,7 +190,9 @@ def create_torch_dataset(
     )
 
     if data_config.prompt_from_task:
-        dataset = TransformedDataset(dataset, [_transforms.PromptFromLeRobotTask(dataset_meta.tasks)])
+        dataset = TransformedDataset(
+            dataset, [_transforms.PromptFromLeRobotTask(_lerobot_tasks_to_prompt_map(dataset_meta.tasks))]
+        )
 
     return dataset
 
@@ -431,6 +477,12 @@ class TorchDataLoader:
 
         generator = torch.Generator()
         generator.manual_seed(seed)
+        worker_kwargs = {}
+        if num_workers > 0:
+            worker_kwargs = {
+                "persistent_workers": False,
+                "prefetch_factor": 1,
+            }
         self._data_loader = torch.utils.data.DataLoader(
             typing.cast(torch.utils.data.Dataset, dataset),
             batch_size=local_batch_size,
@@ -438,11 +490,11 @@ class TorchDataLoader:
             sampler=sampler,
             num_workers=num_workers,
             multiprocessing_context=mp_context,
-            persistent_workers=num_workers > 0,
             collate_fn=_collate_fn,
             worker_init_fn=_worker_init_fn,
             drop_last=True,
             generator=generator,
+            **worker_kwargs,
         )
 
     @property

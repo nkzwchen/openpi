@@ -20,6 +20,41 @@ T = TypeVar("T")
 S = TypeVar("S")
 
 
+from dataclasses import dataclass
+import numpy as np
+try:
+    import torch
+except Exception:
+    torch = None
+
+@dataclass
+class PromptIndexToText:
+    tasks: dict[int, str]                  # 索引→指令 的映射表
+    key: str = "prompt"                    # 你的索引目前放在 prompt 里
+
+    def __call__(self, data: dict) -> dict:
+        if self.key not in data:
+            raise ValueError(f'missing key "{self.key}" for prompt')
+
+        v = data[self.key]
+        # 解包 0 维 numpy/tensor 标量
+        if isinstance(v, np.ndarray) and v.ndim == 0:
+            v = v.item()
+        if torch is not None and hasattr(torch, "Tensor") and isinstance(v, torch.Tensor) and v.ndim == 0:
+            v = v.item()
+
+        # 必须映射成字符串
+        try:
+            idx = int(v)
+        except Exception:
+            raise TypeError(f'prompt must be an int index, got {type(v)}: {v!r}')
+
+        if idx not in self.tasks:
+            raise KeyError(f"unknown task_index {idx}; please add it to tasks mapping")
+
+        data[self.key] = self.tasks[idx]    # 替换成字符串指令
+        return data
+
 @runtime_checkable
 class DataTransformFn(Protocol):
     def __call__(self, data: DataDict) -> DataDict:

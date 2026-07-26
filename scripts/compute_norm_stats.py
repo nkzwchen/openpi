@@ -5,6 +5,8 @@ will compute the mean and standard deviation of the data in the dataset and save
 to the config assets directory.
 """
 
+import dataclasses
+
 import numpy as np
 import tqdm
 import tyro
@@ -31,7 +33,7 @@ def create_torch_dataloader(
 ) -> tuple[_data_loader.Dataset, int]:
     if data_config.repo_id is None:
         raise ValueError("Data config must have a repo_id")
-    dataset = _data_loader.create_torch_dataset(data_config, action_horizon, model_config)
+    dataset = _data_loader.create_torch_dataset(data_config, action_horizon, model_config, decode_videos=False)
     dataset = _data_loader.TransformedDataset(
         dataset,
         [
@@ -86,8 +88,22 @@ def create_rlds_dataloader(
     return data_loader, num_batches
 
 
-def main(config_name: str, max_frames: int | None = None):
+def main(
+    config_name: str,
+    max_frames: int | None = None,
+    repo_id: str | None = None,
+    asset_id: str | None = None,
+):
     config = _config.get_config(config_name)
+    if repo_id is not None or asset_id is not None:
+        assets = dataclasses.replace(config.data.assets, asset_id=asset_id or config.data.assets.asset_id)
+        data = dataclasses.replace(
+            config.data,
+            repo_id=repo_id if repo_id is not None else config.data.repo_id,
+            assets=assets,
+        )
+        config = dataclasses.replace(config, data=data)
+
     data_config = config.data.create(config.assets_dirs, config.model)
 
     if data_config.rlds_data_dir is not None:
@@ -108,7 +124,10 @@ def main(config_name: str, max_frames: int | None = None):
 
     norm_stats = {key: stats.get_statistics() for key, stats in stats.items()}
 
-    output_path = config.assets_dirs / data_config.repo_id
+    asset_id = data_config.asset_id or data_config.repo_id
+    if asset_id is None:
+        raise ValueError("Data config must have either an asset_id or a repo_id")
+    output_path = config.assets_dirs / asset_id
     print(f"Writing stats to: {output_path}")
     normalize.save(output_path, norm_stats)
 

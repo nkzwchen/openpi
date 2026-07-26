@@ -1,5 +1,6 @@
 import dataclasses
 import logging
+import pathlib
 import re
 from typing import Protocol, runtime_checkable
 
@@ -49,9 +50,23 @@ class CheckpointWeightLoader(WeightLoader):
 
     def load(self, params: at.Params) -> at.Params:
         # We are loading np.ndarray and relying on the training code to properly convert and shard the params.
-        loaded_params = _model.restore_params(download.maybe_download(self.params_path), restore_type=np.ndarray)
+        loaded_params = _model.restore_params(_resolve_params_path(self.params_path), restore_type=np.ndarray)
         # Add all missing LoRA weights.
         return _merge_params(loaded_params, params, missing_regex=".*lora.*")
+
+
+def _resolve_params_path(params_path: str) -> str | pathlib.Path:
+    if str(params_path).startswith("gs://"):
+        return download.maybe_download(params_path)
+
+    path = pathlib.Path(params_path)
+    if (path / "params" / "params" / "_METADATA").exists():
+        return path / "params" / "params"
+    if (path / "params" / "_METADATA").exists():
+        return path / "params"
+    if (path / "_METADATA").exists() and (path / "params" / "_METADATA").exists():
+        return path / "params"
+    return download.maybe_download(params_path)
 
 
 @dataclasses.dataclass(frozen=True)
