@@ -33,7 +33,7 @@ import tty
 PUSHBACK_TTL = 1.0
 
 # Keys that the legacy `pressed()` helper treats as "a key was pressed".
-LEGACY_KEYS = (' ', 'q', 'Q', '\x1b')
+LEGACY_KEYS = (" ", "q", "Q", "\x1b")
 
 
 class NonBlockingKey:
@@ -88,14 +88,14 @@ class NonBlockingKey:
         except Exception:
             ready = False
         if ready:
-            self._pushback.clear()          # ① 有新键 → 旧放回字符作废
+            self._pushback.clear()  # ① 有新键 → 旧放回字符作废
             try:
                 return sys.stdin.read(1)
             except Exception:
                 return None
         if self._pushback:
             ch, t = self._pushback[-1]
-            if time.time() - t < PUSHBACK_TTL:   # ② 只在还新鲜时返回
+            if time.time() - t < PUSHBACK_TTL:  # ② 只在还新鲜时返回
                 return ch
             self._pushback.clear()
         return None

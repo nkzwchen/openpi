@@ -1,4 +1,5 @@
 """LeRobot SO101 absolute positions, full front/wrist frames, no frozen joints."""
+
 import numpy as np
 
 VERSION = "so101_openpi_absolute6_v1"
@@ -9,8 +10,8 @@ JOINTS = ("shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_ro
 STATE_ORDER = JOINTS
 # Explicit LeRobot use_degrees=False: five calibrated [-100,100] arm positions,
 # and calibrated [0,100] gripper position. These are absolute targets, not deltas.
-LOW = np.array([-100.] * 5 + [0.], dtype=np.float32)
-HIGH = np.full(6, 100., dtype=np.float32)
+LOW = np.array([-100.0] * 5 + [0.0], dtype=np.float32)
+HIGH = np.full(6, 100.0, dtype=np.float32)
 UNITS = "lerobot_range_m100_100_arm_range_0_100_gripper"
 
 

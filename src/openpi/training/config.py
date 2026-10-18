@@ -20,8 +20,8 @@ import openpi.models.tokenizer as _tokenizer
 import openpi.policies.aloha_policy as aloha_policy
 import openpi.policies.droid_policy as droid_policy
 import openpi.policies.libero_policy as libero_policy
-import openpi.policies.so101_policy as so101_policy
 import openpi.policies.so101_absolute_policy as so101_absolute_policy
+import openpi.policies.so101_policy as so101_policy
 import openpi.shared.download as _download
 import openpi.shared.normalize as _normalize
 import openpi.training.droid_rlds_dataset as droid_rlds_dataset
@@ -279,13 +279,22 @@ class LeRobotSO101AbsoluteDataConfig(DataConfigFactory):
     def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
         return dataclasses.replace(
             self.create_base_config(assets_dirs, model_config),
-            repack_transforms=_transforms.Group(inputs=[_transforms.RepackTransform({
-                "observation/cam_main": "observation.images.cam_main",
-                "observation/cam_wrist": "observation.images.cam_wrist",
-                "observation/state": "observation.state", "actions": "action", "prompt": "prompt",
-            })]),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "observation/cam_main": "observation.images.cam_main",
+                            "observation/cam_wrist": "observation.images.cam_wrist",
+                            "observation/state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
             data_transforms=_transforms.Group(
-                inputs=[so101_absolute_policy.AbsoluteInputs()], outputs=[so101_absolute_policy.AbsoluteOutputs()],
+                inputs=[so101_absolute_policy.AbsoluteInputs()],
+                outputs=[so101_absolute_policy.AbsoluteOutputs()],
             ),
             model_transforms=ModelTransformFactory()(model_config),
             action_sequence_keys=("action",),
@@ -1009,9 +1018,7 @@ _CONFIGS = [
             base_config=DataConfig(prompt_from_task=True),
             extra_delta_transform=True,
         ),
-        weight_loader=weight_loaders.CheckpointWeightLoader(
-            "/root/rivermind-data/openpi/checkpoints/pi05_base"
-        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader("/root/rivermind-data/openpi/checkpoints/pi05_base"),
         num_train_steps=30000,
         batch_size=2,
         lr_schedule=_optimizer.CosineDecaySchedule(

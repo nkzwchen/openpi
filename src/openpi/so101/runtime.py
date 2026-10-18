@@ -1,4 +1,6 @@
+# ruff: noqa: PLC0415
 """Nonblocking chunk policy with explicit invalidation; no hardware dependencies."""
+
 from concurrent.futures import ThreadPoolExecutor
 import copy
 import threading
@@ -6,7 +8,11 @@ import time
 
 import numpy as np
 
-from openpi.so101.contract import PROMPT, VERSION, observation_to_input, validate_action
+from openpi.so101.contract import PROMPT
+from openpi.so101.contract import UNITS
+from openpi.so101.contract import VERSION
+from openpi.so101.contract import observation_to_input
+from openpi.so101.contract import validate_action
 
 
 class AsyncChunkPolicy:
@@ -55,9 +61,15 @@ class AsyncChunkPolicy:
         if self._closed or self._fault:
             raise RuntimeError(self._fault or "Policy closed")
         self.invalidate("before_episode")
-        server_metadata = getattr(self.client, "get_server_metadata", lambda: {})()
-        if server_metadata:
-            if server_metadata.get("contract") != VERSION or server_metadata.get("prompt") != self.prompt:
+        self.events.clear()
+        server_metadata = getattr(self.client, "get_server_metadata", dict)()
+        if hasattr(self.client, "get_server_metadata"):
+            if (
+                server_metadata.get("contract") != VERSION
+                or server_metadata.get("prompt") != self.prompt
+                or server_metadata.get("action_units") != UNITS
+                or server_metadata.get("synthetic") is not False
+            ):
                 raise RuntimeError("Policy server contract/prompt mismatch")
             self.metadata.update(server_metadata)
 
@@ -93,11 +105,16 @@ class AsyncChunkPolicy:
                         except ValueError as exc:
                             self._fault = str(exc)
                             raise RuntimeError(self._fault) from exc
-                        self._chunk, self._index = chunk[:self.execute_steps].copy(), 0
-                        self._chunk_info = {"request_id": request_id, "chunk_id": request_id,
-                                            "observation_monotonic_s": requested, "infer_start": started,
-                                            "infer_end": finished, "generation": generation}
-                        self._log("result", **{k:v for k,v in self._chunk_info.items() if k != "generation"})
+                        self._chunk, self._index = chunk[: self.execute_steps].copy(), 0
+                        self._chunk_info = {
+                            "request_id": request_id,
+                            "chunk_id": request_id,
+                            "observation_monotonic_s": requested,
+                            "infer_start": started,
+                            "infer_end": finished,
+                            "generation": generation,
+                        }
+                        self._log("result", **{k: v for k, v in self._chunk_info.items() if k != "generation"})
                     else:
                         self._log("discard_late_or_invalidated", request_id=request_id)
             if self._chunk is not None:
@@ -106,8 +123,12 @@ class AsyncChunkPolicy:
                     self._log("discard_stale_chunk")
                 else:
                     action = self._chunk[self._index].copy()
-                    self.last_execution = {**self._chunk_info, "chunk_index": self._index,
-                                           "policy_action": action.tolist(), "source": "policy"}
+                    self.last_execution = {
+                        **self._chunk_info,
+                        "chunk_index": self._index,
+                        "policy_action": action.tolist(),
+                        "source": "policy",
+                    }
                     self._index += 1
                     if self._index == len(self._chunk):
                         self._chunk = None
@@ -115,9 +136,12 @@ class AsyncChunkPolicy:
             if self._future is None:
                 inputs = observation_to_input(obs, self.prompt)
                 self._request_id += 1
-                self._future = (self._executor.submit(self._infer, copy.deepcopy(inputs), self._generation,
-                                                    self._request_id, now),
-                                self._generation, self._request_id, now)
+                self._future = (
+                    self._executor.submit(self._infer, copy.deepcopy(inputs), self._generation, self._request_id, now),
+                    self._generation,
+                    self._request_id,
+                    now,
+                )
                 self._log("request", request_id=self._request_id)
             return None
 
@@ -132,13 +156,17 @@ class AsyncChunkPolicy:
 
 class BoundedWebsocketClient:
     """Finite connection/receive deadlines; no reconnect or automatic retry."""
+
     def __init__(self, uri, *, timeout_s=1.0):
-        from websockets.sync.client import connect
         from openpi_client import msgpack_numpy
+        from websockets.sync.client import connect
 
         self._codec = msgpack_numpy
         self._timeout = timeout_s
-        self._ws = connect(uri, compression=None, max_size=None, open_timeout=timeout_s, close_timeout=timeout_s)
+        self._connection = connect(
+            uri, compression=None, max_size=None, open_timeout=timeout_s, close_timeout=timeout_s
+        )
+        self._ws = self._connection.__enter__()
         try:
             self._metadata = msgpack_numpy.unpackb(self._ws.recv(timeout=timeout_s))
         except Exception:
@@ -156,4 +184,4 @@ class BoundedWebsocketClient:
         return self._codec.unpackb(result)
 
     def close(self):
-        self._ws.close()
+        self._connection.__exit__(None, None, None)

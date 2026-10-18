@@ -3,17 +3,27 @@
 The robot/leader/keyboard/writer are injected. Importing this module cannot open
 serial ports, cameras or ROS. READY and PAUSE send no commands; RETURN is manual.
 """
+
 import copy
 import time
 
 import numpy as np
 
-from openpi.so101.contract import CAMERAS, FPS, JOINTS, PROMPT, UNITS, VERSION
-from openpi.so101.contract import array_to_positions, observation_to_input, positions_to_array
+from openpi.so101.contract import CAMERAS
+from openpi.so101.contract import FPS
+from openpi.so101.contract import JOINTS
+from openpi.so101.contract import PROMPT
+from openpi.so101.contract import UNITS
+from openpi.so101.contract import VERSION
+from openpi.so101.contract import array_to_positions
+from openpi.so101.contract import observation_to_input
+from openpi.so101.contract import positions_to_array
 
 
 class RecordingSession:
-    def __init__(self, robot, leader, writer_factory, *, policy=None, metadata=None, max_takeovers=0, clock=time.monotonic):
+    def __init__(
+        self, robot, leader, writer_factory, *, policy=None, metadata=None, max_takeovers=0, clock=time.monotonic
+    ):
         if max_takeovers < 0:
             raise ValueError("max_takeovers must be nonnegative")
         self.robot, self.leader, self.writer_factory, self.policy = robot, leader, writer_factory, policy
@@ -39,14 +49,26 @@ class RecordingSession:
         if self.writer is None:
             return
         self._invalidate("episode_end")
-        meta = {**self.base_metadata, "contract": VERSION, "task": PROMPT, "env_hz": FPS,
-                "action_semantics": "absolute_joint_position_6d", "observation_semantics": "measured_joint_position_6d",
-                "action_units": UNITS, "roi": False, "frozen_joints": [], "action_joints": list(JOINTS),
-                "image_keys": list(CAMERAS), "operator_excluded": self._excluded,
-                "quality_failed": bool(self._safety_error), "safety_error": self._safety_error,
-                "takeover_count": self.count, "max_takeovers": self.max_takeovers,
-                "policy": self.policy.metadata if self.policy else None,
-                "policy_events": list(self.policy.events) if self.policy else []}
+        meta = {
+            **self.base_metadata,
+            "contract": VERSION,
+            "task": PROMPT,
+            "env_hz": FPS,
+            "action_semantics": "absolute_joint_position_6d",
+            "observation_semantics": "measured_joint_position_6d",
+            "action_units": UNITS,
+            "roi": False,
+            "frozen_joints": [],
+            "action_joints": list(JOINTS),
+            "image_keys": list(CAMERAS),
+            "operator_excluded": self._excluded,
+            "quality_failed": bool(self._safety_error),
+            "safety_error": self._safety_error,
+            "takeover_count": self.count,
+            "max_takeovers": self.max_takeovers,
+            "policy": self.policy.metadata if self.policy else None,
+            "policy_events": list(self.policy.events) if self.policy else [],
+        }
         self.saved.append(self.writer.finish(meta))
         self.writer = None
         self.episode_index += 1
@@ -123,14 +145,31 @@ class RecordingSession:
             if phase == "RETURN":
                 return True  # Return motions are deliberately never expert labels.
             limited = not np.allclose(requested, sent, atol=1e-6, rtol=0)
-            info = {"intervening": human, "phase": "record", "segment_start": self._segment_start,
-                    "quality_ok": finished - started <= 0.25, "quality_problems": [] if finished-started <= .25 else ["slow_step"],
-                    "observation_monotonic_s": started, "command_monotonic_s": finished,
-                    "joint_control": {"accepted": True, "limited": bool(limited),
-                                      "requested_action": requested.tolist(), "sent_action": sent.tolist()},
-                    "policy_execution": copy.deepcopy(self.policy.last_execution) if self.policy and not human else None}
-            self.writer.submit({"observations": copy.deepcopy(obs), "actions": sent.copy(),
-                                "requested_action": requested.copy(), "infos": info, "dones": False})
+            info = {
+                "intervening": human,
+                "phase": "record",
+                "segment_start": self._segment_start,
+                "quality_ok": finished - started <= 0.25,
+                "quality_problems": [] if finished - started <= 0.25 else ["slow_step"],
+                "observation_monotonic_s": started,
+                "command_monotonic_s": finished,
+                "joint_control": {
+                    "accepted": True,
+                    "limited": bool(limited),
+                    "requested_action": requested.tolist(),
+                    "sent_action": sent.tolist(),
+                },
+                "policy_execution": copy.deepcopy(self.policy.last_execution) if self.policy and not human else None,
+            }
+            self.writer.submit(
+                {
+                    "observations": copy.deepcopy(obs),
+                    "actions": sent.copy(),
+                    "requested_action": requested.copy(),
+                    "infos": info,
+                    "dones": False,
+                }
+            )
             self._step += 1
             self._segment_start = False
             return True

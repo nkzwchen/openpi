@@ -64,9 +64,7 @@ class LocalLeRobotV3Dataset(torch.utils.data.Dataset):
         self.fps = int(self.info["fps"])
         self.features = self.info["features"]
         self.video_keys = [key for key, feature in self.features.items() if feature["dtype"] == "video"]
-        self.camera_keys = [
-            key for key, feature in self.features.items() if feature["dtype"] in {"image", "video"}
-        ]
+        self.camera_keys = [key for key, feature in self.features.items() if feature["dtype"] in {"image", "video"}]
 
         self.tasks = self._load_tasks()
         self.episodes = self._load_episodes()

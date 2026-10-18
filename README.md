@@ -2,7 +2,7 @@
 
 ## 本项目的代码管理与采集接管边界
 
-本地终端与云端统一使用 Git 仓库 `git@github.com:nkzwchen/openpi.git`。本地目录为 `/home/nkzwchen/pi_project/openpi`，当前云端目录为 `/root/gpufree-data/openpi`；协作时通过同一开发分支和提交号核对代码版本。数据集、模型权重、运行产物和机器专属配置不随代码同步。
+本地终端与云端统一使用 Git 仓库 `git@github.com:nkzwchen/openpi.git`。本地目录为 `/home/nkzwchen/pi_project/openpi`，云端原目录为 `/root/gpufree-data/openpi`，本功能使用独立 worktree `/root/gpufree-data/openpi-dagger`；协作时通过同一开发分支和提交号核对代码版本。数据集、模型权重、运行产物和机器专属配置不随代码同步。
 
 **采集与人工接管流程已在本仓库独立实现。** `examples/so101/` 中的 GUI、按键、接管次数设置和异步录制器源自本地 HIL-SERL 工作区；OpenPI 维护独立副本，原 `hil-serl` 不改动。新入口为 `examples/so101/record_openpi_so101.py`，不再调用旧的三关节相对动作录制入口。
 
