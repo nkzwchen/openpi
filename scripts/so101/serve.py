@@ -6,11 +6,14 @@ import json
 from pathlib import Path
 import subprocess
 
+import numpy as np
+
 from openpi.policies import policy_config
 from openpi.serving.websocket_policy_server import WebsocketPolicyServer
 from openpi.so101.contract import PROMPT
 from openpi.so101.contract import UNITS
 from openpi.so101.contract import VERSION
+from openpi.so101.contract import observation_to_input
 from openpi.so101.training import dataset_contract
 from openpi.training import config
 
@@ -59,6 +62,17 @@ def main():
         "source_contract": info["source_contract"],
         "num_steps": args.num_steps,
     }
+    # Compile before listening so the client's finite receive timeout does not
+    # expire on first-use compilation. No robot or camera device is opened.
+    spec = info["source_contract"]["camera_spec"]
+    warm_obs = {"state": np.zeros(6, dtype=np.float32)}
+    for camera in ("cam_main", "cam_wrist"):
+        warm_obs[camera] = np.zeros((spec[camera]["height"], spec[camera]["width"], 3), dtype=np.uint8)
+    print("Warming policy before accepting clients...", flush=True)
+    warm_output = policy.infer(observation_to_input(warm_obs))
+    if warm_output["actions"].shape != (info["export_horizon"], 6) or not np.isfinite(warm_output["actions"]).all():
+        raise RuntimeError("Policy warmup returned invalid actions")
+    print(f"Policy ready at {args.bind}:{args.port}", flush=True)
     WebsocketPolicyServer(policy, host=args.bind, port=args.port, metadata=metadata).serve_forever()
 
 

@@ -154,5 +154,68 @@ class LoopbackTests(unittest.TestCase):
             thread.join(1)
 
 
+@unittest.skipUnless(importlib.util.find_spec("jax"), "requires the cloud OpenPI training environment")
+class ServingConfigTests(unittest.TestCase):
+    def test_restore_lora_binding_and_warm_before_listening(self):
+        import json
+        from types import SimpleNamespace
+        from unittest.mock import patch
+
+        source = EXAMPLES.parents[1] / "scripts/so101/serve.py"
+        spec = importlib.util.spec_from_file_location("so101_serve_acceptance", source)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        info = {
+            "export_horizon": 10,
+            "source_contract": {
+                "calibration": {"test": True},
+                "camera_spec": {c: {"height": 48, "width": 64} for c in ("cam_main", "cam_wrist")},
+            },
+        }
+        events = []
+
+        def infer(obs):
+            self.assertEqual(obs["observation/cam_main"].shape, (48, 64, 3))
+            self.assertEqual(obs["observation/state"].shape, (6,))
+            events.append("warm")
+            return {"actions": np.zeros((10, 6), np.float32)}
+
+        def server(*args, **kwargs):
+            self.assertEqual(events, ["warm"])
+            return SimpleNamespace(serve_forever=lambda: events.append("listen"))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            experiment = Path(tmp) / "experiment"
+            checkpoint = experiment / "100"
+            checkpoint.mkdir(parents=True)
+            (experiment / "so101_contract.json").write_text(
+                json.dumps(
+                    {
+                        "dataset_report_sha256": "digest",
+                        "dataset_info": info,
+                        "asset_id": "absolute6_test_asset",
+                        "lora": True,
+                    }
+                )
+            )
+            with (
+                patch.object(module, "dataset_contract", return_value=(info, "digest")),
+                patch.object(
+                    module.policy_config, "create_trained_policy", return_value=SimpleNamespace(infer=infer)
+                ) as load,
+                patch.object(module, "WebsocketPolicyServer", side_effect=server),
+                patch.object(module.subprocess, "check_output", return_value="test-commit\n"),
+                patch.object(
+                    sys, "argv", ["serve.py", "--checkpoint", str(checkpoint), "--dataset", str(Path(tmp) / "dataset")]
+                ),
+            ):
+                module.main()
+            config = load.call_args.args[0]
+            self.assertEqual(config.model.paligemma_variant, "gemma_2b_lora")
+            self.assertEqual(config.model.action_expert_variant, "gemma_300m_lora")
+            self.assertEqual(config.data.assets.asset_id, "absolute6_test_asset")
+            self.assertEqual(events, ["warm", "listen"])
+
+
 if __name__ == "__main__":
     unittest.main()
