@@ -161,3 +161,22 @@ python scripts/benchmarks/remote_latency_probe.py \
 ```
 
 该延迟服务仅接收合成测试输入。
+
+### 预量化 FP8 运行时对比
+
+`scripts/benchmarks/fp8_runtime.py` 比较 JAX BF16、FlashRT BF16 和 FlashRT FP8。使用相同合成输入、六维动作屏蔽和固定噪声，输出延迟及归一化动作。FlashRT 需要另外下载并按 GPU 架构编译；将编译后的源码根目录加入 `PYTHONPATH`。
+
+```bash
+python scripts/benchmarks/fp8_runtime.py --backend jax \
+  --weights <JAX权重目录> --num-steps 5 \
+  --output data/benchmarks/jax-bf16-s5.json
+
+export PYTHONPATH="<已编译的FlashRT源码目录>:$PYTHONPATH"
+for backend in flashrt-bf16 flashrt-fp8-vlm flashrt-fp8; do
+  JAX_PLATFORMS=cpu python scripts/benchmarks/fp8_runtime.py \
+    --backend "$backend" --weights <JAX权重目录> --num-steps 5 \
+    --output "data/benchmarks/${backend}-s5.json"
+done
+```
+
+`flashrt-fp8-vlm` 将视觉和语言部分的受支持矩阵乘法设为 FP8，动作专家保持 BF16；`flashrt-fp8` 还量化动作专家的大型矩阵乘法。运行时通过 `--cpu-threads` 设置 CPU 线程数，默认 2。通过 `--num-steps 10` 测试十步去噪；`--warmup`、`--iterations` 默认均为 100。JAX 默认仅计算两路有效图像，`--jax-camera-slots 3` 可保留原有第三路屏蔽图像的计算。FlashRT 的计时包含图像预处理与传输，JAX 的计时从已就绪的设备输入开始，具体范围写入输出 JSON。此脚本仅用于离线基准，不启动机器人。
