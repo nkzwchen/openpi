@@ -23,7 +23,8 @@ class Pi0Config(_model.BaseModelConfig):
 
     # Set the model specific defaults.
     action_dim: int = 32
-    # Optionally supervise only real action dimensions while retaining checkpoint shapes.
+    # Optionally supervise only real action dimensions and keep inactive flow channels
+    # at zero during training/sampling, while retaining checkpoint parameter shapes.
     loss_action_dim: int | None = None
     action_horizon: int = 50
     max_token_len: int = None  # type: ignore

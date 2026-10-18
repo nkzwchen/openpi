@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import uuid
 
 from openpi.so101.collector import RecordingSession
 from openpi.so101.contract import CAMERAS
@@ -125,6 +126,8 @@ def main():
         meta = {
             "contract": VERSION,
             "task": PROMPT,
+            "batch_id": uuid.uuid4().hex,
+            "created_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "calibration": calibration,
             "camera_spec": {
                 c: {

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import io
 import logging
 from pathlib import Path
 from typing import Sequence
@@ -9,7 +8,6 @@ from typing import Sequence
 import numpy as np
 import pandas as pd
 import torch
-from PIL import Image
 
 from lerobot.common.datasets.video_utils import decode_video_frames
 
@@ -124,15 +122,6 @@ class LocalLeRobotV3Dataset(torch.utils.data.Dataset):
 
         for key in self.features:
             if key in item or key in self.video_keys:
-                continue
-            if self.features[key]["dtype"] == "image":
-                if not self.decode_videos:
-                    item[key] = np.zeros(self.features[key]["shape"], dtype=np.uint8)
-                else:
-                    value = row[key]
-                    source = io.BytesIO(value["bytes"]) if value.get("bytes") is not None else self.root / value["path"]
-                    with Image.open(source) as image:
-                        item[key] = np.asarray(image.convert("RGB"))
                 continue
             if key in self.action_sequence_keys:
                 item[key] = self._query_sequence(row, episode, key)

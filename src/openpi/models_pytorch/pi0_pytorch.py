@@ -320,6 +320,10 @@ class PI0Pytorch(nn.Module):
 
         if noise is None:
             noise = self.sample_noise(actions.shape, actions.device)
+        if self.config.loss_action_dim is not None and self.config.loss_action_dim < self.config.action_dim:
+            active_dims = torch.arange(self.config.action_dim, device=actions.device) < self.config.loss_action_dim
+            actions = actions * active_dims
+            noise = noise * active_dims
 
         if time is None:
             time = self.sample_time(actions.shape[0], actions.device)
@@ -381,6 +385,10 @@ class PI0Pytorch(nn.Module):
         if noise is None:
             actions_shape = (bsize, self.config.action_horizon, self.config.action_dim)
             noise = self.sample_noise(actions_shape, device)
+        active_dims = None
+        if self.config.loss_action_dim is not None and self.config.loss_action_dim < self.config.action_dim:
+            active_dims = torch.arange(self.config.action_dim, device=noise.device) < self.config.loss_action_dim
+            noise = noise * active_dims
 
         images, img_masks, lang_tokens, lang_masks, state = self._preprocess_observation(observation, train=False)
 
@@ -414,6 +422,8 @@ class PI0Pytorch(nn.Module):
                 x_t,
                 expanded_time,
             )
+            if active_dims is not None:
+                v_t = v_t * active_dims
 
             # Euler step - use new tensor assignment instead of in-place operation
             x_t = x_t + dt * v_t

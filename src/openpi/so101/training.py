@@ -28,6 +28,8 @@ def dataset_contract(dataset):
         raise ValueError("Empty dataset or missing camera/calibration contract")
     report_path = dataset.parent / "report.json"
     report = json.loads(report_path.read_text())
+    if report.get("synthetic") is not False or report.get("contract") != VERSION:
+        raise ValueError("Invalid or synthetic export report")
     if report.get("empty_splits"):
         raise ValueError("Require independent nonempty train and validation batches")
     return info, hashlib.sha256(report_path.read_bytes()).hexdigest()

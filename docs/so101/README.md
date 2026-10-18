@@ -76,7 +76,7 @@ python -m openpi.so101.export export data/recordings/<batch>/*.pkl \
 
 ## B：模型配置、统计与训练
 
-新增配置 `pi05_so101_absolute6`；旧 `pi05_so101` 不改语义。模型原生投影仍为32维，state/action 补齐；`loss_action_dim=6` 只监督真实六维，避免补零维度稀释损失。π₀.₅ 通过离散 state tokens 使用六维实测状态。
+新增配置 `pi05_so101_absolute6`；旧 `pi05_so101` 不改语义。模型原生投影仍为32维，state/action 补齐；`loss_action_dim=6` 只监督真实六维，避免补零维度稀释损失。未使用的动作通道在加噪和采样积分时保持为0，避免未监督通道的随机漂移重新影响有效动作。π₀.₅ 通过离散 state tokens 使用六维实测状态。
 
 归一化只从训练 split 的有效窗口计算，asset_id 与导出报告 hash 绑定。生产训练入口拒绝合成数据、旧契约、空 train/validation、未完成导出。以下命令需要已有的新任务人工数据；本次没有启动完整训练：
 

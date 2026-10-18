@@ -5,6 +5,7 @@ import argparse
 import dataclasses
 import json
 from pathlib import Path
+import subprocess
 import time
 
 import numpy as np
@@ -148,6 +149,7 @@ def main():
     key = jax.random.key(12)
     before = nnx_utils.module_jit(model.sample_actions)(key, observation, num_steps=2)
     before = np.asarray(before)
+    assert np.all(before[..., 6:] == 0)
     restored = model_cfg.load(model_lib.restore_params(out / "checkpoint/params"))
     after = np.asarray(nnx_utils.module_jit(restored.sample_actions)(key, observation, num_steps=2))
     np.testing.assert_allclose(before, after, rtol=1e-4, atol=1e-4)
@@ -162,6 +164,9 @@ def main():
     output = policy.infer(observation_to_input(obs))
     assert output["actions"].shape == (10, 6) and np.isfinite(output["actions"]).all()
     result = {
+        "code_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=Path(__file__).resolve().parents[2], text=True
+        ).strip(),
         "synthetic": True,
         "export": report,
         "model_smoke": {
@@ -170,6 +175,7 @@ def main():
             "loss": loss,
             "gradient_norm": grad_norm,
             "padded_action_head_gradient": float(padded_gradient),
+            "inactive_sample_channels_zero": True,
             "loss_action_dim": 6,
             "parameter_shapes_compatible": True,
             "reload_max_abs_error": float(np.max(np.abs(before - after))),

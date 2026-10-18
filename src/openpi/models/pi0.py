@@ -195,6 +195,10 @@ class Pi0(_model.BaseModel):
 
         batch_shape = actions.shape[:-2]
         noise = jax.random.normal(noise_rng, actions.shape)
+        if self.loss_action_dim < self.action_dim:
+            active_dims = jnp.arange(self.action_dim) < self.loss_action_dim
+            actions = actions * active_dims
+            noise = noise * active_dims
         time = jax.random.beta(time_rng, 1.5, 1, batch_shape) * 0.999 + 0.001
         time_expanded = time[..., None, None]
         x_t = time_expanded * noise + (1 - time_expanded) * actions
@@ -230,6 +234,8 @@ class Pi0(_model.BaseModel):
         batch_size = observation.state.shape[0]
         if noise is None:
             noise = jax.random.normal(rng, (batch_size, self.action_horizon, self.action_dim))
+        if self.loss_action_dim < self.action_dim:
+            noise = noise * (jnp.arange(self.action_dim) < self.loss_action_dim)
 
         # first fill KV cache with a forward pass of the prefix
         prefix_tokens, prefix_mask, prefix_ar_mask = self.embed_prefix(observation)
@@ -268,6 +274,8 @@ class Pi0(_model.BaseModel):
             )
             assert prefix_out is None
             v_t = self.action_out_proj(suffix_out[:, -self.action_horizon :])
+            if self.loss_action_dim < self.action_dim:
+                v_t = v_t * (jnp.arange(self.action_dim) < self.loss_action_dim)
 
             return x_t + dt * v_t, time + dt
 
