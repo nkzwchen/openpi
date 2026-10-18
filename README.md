@@ -196,3 +196,18 @@ JAX_PLATFORMS=cpu python scripts/benchmarks/fp8_runtime.py \
 `--sample-kind mixed` 生成明暗、渐变、纹理等合成图像；`--vary-state` 每帧改变归一化六维状态，必须同时指定 `--include-prompt-update`。`fixed` 使用固定提示词容量，`exact` 按 token 长度准备计算图。`--calibration-percentile` 设置多帧尺度统计百分位，默认 100。输出包含分轮延迟、最大延迟和超过 100 ms 的次数；合成图像校准仍使用零状态。
 
 追加 `--request-hz 10 --rounds 1 --iterations 200` 可按 10 Hz 发起测试请求；主动等待不计入单次推理延迟。默认 `--request-hz 0` 连续发起请求。
+
+使用本地 LeRobot v3 双路视频缓存进行真实帧校准：
+
+```bash
+python scripts/benchmarks/prepare_real_fixture.py \
+  --dataset <LeRobot缓存目录> --output data/benchmarks/real-frames-new \
+  --samples-per-split 64 --sample-hz 10
+JAX_PLATFORMS=cpu python scripts/benchmarks/fp8_runtime.py \
+  --backend flashrt-fp8-vlm --weights <JAX权重目录> \
+  --fixture data/benchmarks/real-frames-new --state-prompt-mode fixed \
+  --num-steps 5 --rounds 3 --iterations 200 \
+  --output data/benchmarks/fp8-vlm-real.json
+```
+
+抽帧脚本需要 `pyarrow`、FFmpeg 的 `libdav1d` 解码器及 `openpi-client`。输出目录必须是新目录；校准与测试按 episode 分开，状态分位数只使用校准侧数据。`--fixture` 自动使用真实状态并计入每帧提示词更新，校准时也同步更新真实状态。该入口比较归一化动作的数值差异，替代统计不作为训练检查点的归一化资产。

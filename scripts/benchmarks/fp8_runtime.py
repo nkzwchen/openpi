@@ -1,4 +1,4 @@
-"""Compare JAX BF16 with FlashRT BF16/FP8 on deterministic, synthetic SO101-shaped inputs.
+"""Compare JAX BF16 with FlashRT BF16/FP8 on synthetic or recorded SO101 observations.
 
 FlashRT is an optional external source build supplied through PYTHONPATH. Each
 backend runs in its own process. This is a benchmark, not a robot policy server.
@@ -49,6 +49,7 @@ def samples(seed, count, horizon, kind="random"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--backend", choices=["jax", "flashrt-bf16", "flashrt-fp8", "flashrt-fp8-vlm"], required=True)
+    parser.add_argument("--fixture", type=Path, help="Real-frame fixture produced by prepare_real_fixture.py")
     parser.add_argument("--weights", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--num-steps", type=int, default=5)
@@ -96,6 +97,37 @@ def main():
         if args.vary_state
         else np.zeros((len(evaluation), 6), np.float32)
     )
+    fixture_metadata = None
+    calibration_states = np.zeros((len(calibration), 6), np.float32)
+    if args.fixture is not None:
+        if args.state_prompt_mode != "fixed":
+            parser.error("Real-frame state-aware calibration requires --state-prompt-mode fixed")
+        payload_path = args.fixture / "samples.npz"
+        fixture_metadata = json.loads((args.fixture / "manifest.json").read_text())
+        if hashlib.sha256(payload_path.read_bytes()).hexdigest() != fixture_metadata["samples_sha256"]:
+            raise ValueError("Real fixture checksum mismatch")
+        with np.load(payload_path, allow_pickle=False) as payload:
+            eval_images = payload["evaluation_images"]
+            cal_images = payload["calibration_images"]
+            states = payload["evaluation_states"].copy()
+            calibration_states = payload["calibration_states"].copy()
+        for images, state_values in [(eval_images, states), (cal_images, calibration_states)]:
+            if images.dtype != np.uint8 or images.shape[1:] != (2, 224, 224, 3):
+                raise ValueError("Expected real RGB uint8 image pairs resized to 224")
+            if state_values.shape != (len(images), 6) or not np.isfinite(state_values).all():
+                raise ValueError("Expected finite normalized six-dimensional states")
+        evaluation = [
+            (list(pair), noise)
+            for pair, (_, noise) in zip(eval_images, samples(args.seed, len(eval_images), args.horizon), strict=True)
+        ]
+        calibration = [
+            (list(pair), noise)
+            for pair, (_, noise) in zip(
+                cal_images, samples(args.calibration_seed, len(cal_images), args.horizon), strict=True
+            )
+        ]
+        args.evaluation_samples, args.calibration_samples = len(evaluation), len(calibration)
+        args.vary_state = args.include_prompt_update = True
     start = time.perf_counter()
     metadata = {}
     temp = None
@@ -211,11 +243,33 @@ def main():
             cache_frames=1,
             state_prompt_mode=args.state_prompt_mode,
         )
-        pipe.set_prompt(prompt, state=state)
-        # Calibration and evaluation image sets use different seeds. Both are
-        # synthetic and cannot establish closed-loop task success.
+        pipe.set_prompt(prompt, state=calibration_states[0])
+        # Synthetic splits use different seeds; recorded splits use disjoint
+        # episodes. Numerical comparison does not establish task success.
         torch.manual_seed(args.calibration_seed)
-        pipe.calibrate([{"images": images} for images, _ in calibration], percentile=args.calibration_percentile)
+        if fixture_metadata is None:
+            pipe.calibrate([{"images": images} for images, _ in calibration], percentile=args.calibration_percentile)
+        else:
+            # Fixed mode must keep the SAME pipeline while collecting scales
+            # from different real states. Update its language embeddings before
+            # each calibration observation, not only during evaluation.
+            stack_images = pipe._stack_images  # noqa: SLF001
+            calibration_pipeline = pipe.pipeline
+
+            def state_aware_stack(observation):
+                pipe.set_prompt(prompt, state=observation["state"])
+                if pipe.pipeline is not calibration_pipeline:
+                    raise RuntimeError("State calibration unexpectedly replaced the fixed pipeline")
+                return stack_images(observation)
+
+            pipe._stack_images = state_aware_stack  # noqa: SLF001
+            try:
+                pipe.calibrate(
+                    [{"images": images, "state": calibration_states[i]} for i, (images, _) in enumerate(calibration)],
+                    percentile=args.calibration_percentile,
+                )
+            finally:
+                pipe._stack_images = stack_images  # noqa: SLF001
         torch.cuda.synchronize()
         if args.backend.startswith("flashrt-fp8") and not pipe.pipeline.use_fp8:
             raise RuntimeError("FP8 requested but runtime disabled FP8")
@@ -249,7 +303,11 @@ def main():
             fp8_tensor_bytes=quantized_bytes,
             calibration_seed=args.calibration_seed,
             calibration_percentile=args.calibration_percentile,
-            calibration_state="zero six-dimensional state; image variation only",
+            calibration_state=(
+                "real measured states normalized with calibration-only quantiles"
+                if fixture_metadata
+                else "zero six-dimensional state; image variation only"
+            ),
             state_prompt_mode=args.state_prompt_mode,
             timing_scope="host uint8 images + fixed prompt -> synchronized actions; includes image prep/H2D and output copy; prompt tokenization excluded",
             external_frontend_file=str(Path(frontend.__file__).resolve()),
@@ -262,6 +320,8 @@ def main():
             else "host uint8 images + host state -> update prompt, image prep/H2D, synchronized host actions; "
             "initial model load and calibration excluded; newly encountered exact-mode graph setup included"
         )
+    if fixture_metadata:
+        metadata["real_fixture"] = fixture_metadata
     metadata["includes_prompt_update"] = args.include_prompt_update
     infer(0)
     startup_s = time.perf_counter() - start
@@ -302,7 +362,7 @@ def main():
         "horizon": args.horizon,
         "effective_action_dim": 6,
         "num_steps": args.num_steps,
-        "synthetic_inputs": True,
+        "synthetic_inputs": fixture_metadata is None,
         "evaluation_seed": args.seed,
         "sample_kind": args.sample_kind,
         "vary_state": args.vary_state,
@@ -327,7 +387,7 @@ def main():
         "repeat_max_abs_error": repeat_max_abs_error,
         "metadata": metadata,
         "normalized_actions": actions,
-        "quality_limit": "Synthetic-input numerical parity only, no task success evaluation; native BF16 runtime differences must be assessed separately from FP8 quantization.",
+        "quality_limit": "Numerical parity on benchmark observations, no task success evaluation; base model and surrogate state statistics are not a trained SO101 policy. Native BF16 runtime differences must be assessed separately from FP8 quantization.",
     }
     args.output.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: v for k, v in report.items() if k != "normalized_actions"}, indent=2), flush=True)
