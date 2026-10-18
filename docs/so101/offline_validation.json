@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-18",
+  "branch": "feature/so101-openpi-dagger",
+  "unit_test_code_commit": "153bc42e383dc745e20e18737bb268cb7955fe5f",
+  "unit_tests": {
+    "cloud": {
+      "run": 24,
+      "skipped": 0,
+      "passed": 24
+    },
+    "local": {
+      "run": 24,
+      "skipped": 1,
+      "passed": 23
+    },
+    "local_skip_reason": "Serving configuration test requires cloud OpenPI/JAX environment"
+  },
+  "gpu": "NVIDIA L40S",
+  "synthetic": true,
+  "model_smoke": {
+    "variant": "dummy Gemma, real SigLIP, random initialization",
+    "gradient_scope": "action_out_proj only; not full fine-tuning",
+    "loss": 5.921262741088867,
+    "gradient_norm": 13.128143310546875,
+    "padded_action_head_gradient": 0,
+    "inactive_sample_channels_zero": true,
+    "loss_action_dim": 6,
+    "parameter_shapes_compatible": true,
+    "reload_max_abs_error": 0,
+    "output_shape": [
+      10,
+      6
+    ],
+    "elapsed_s": 44.57162753865123,
+    "devices": [
+      "cuda:0"
+    ]
+  },
+  "limitations": [
+    "No real absolute-action demonstrations available",
+    "No pretrained checkpoint validated",
+    "No hardware or GUI motion validation"
+  ],
+  "model_smoke_code_commit": "ee2b85675ee4e9f20b27e6ad3bd12d9a817158d0",
+  "data_windows": {
+    "train": 39,
+    "validation": 39
+  },
+  "hardware_started": false,
+  "original_hil_serl_modified": false,
+  "cloud_worktree": "/root/gpufree-data/openpi-dagger",
+  "cloud_artifact": "data/acceptance-cloud-v3/acceptance.json"
+}
