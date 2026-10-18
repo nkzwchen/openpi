@@ -144,6 +144,24 @@ class BoundaryTests(unittest.TestCase):
 
 
 class ControlTests(unittest.TestCase):
+    def test_transmit_letterbox_preserves_full_view_and_original_recording(self):
+        image = np.zeros((480, 640, 3), np.uint8)
+        image[:, :64] = [255, 0, 0]
+        image[:, -64:] = [0, 0, 255]
+        original = image.copy()
+        obs = {"state": np.zeros(6, np.float32), "cam_main": image, "cam_wrist": image.copy()}
+        policy = AsyncChunkPolicy(FakeClient())
+        try:
+            inputs = policy.prepare_inputs(obs)
+            transmitted = inputs["observation/cam_main"]
+            self.assertEqual(transmitted.shape, (224, 224, 3))
+            np.testing.assert_equal(transmitted[112, 2], [255, 0, 0])
+            np.testing.assert_equal(transmitted[112, 222], [0, 0, 255])
+            np.testing.assert_equal(transmitted[5], 0)
+            np.testing.assert_equal(image, original)
+        finally:
+            policy.close()
+
     def test_absolute_all_six_joints(self):
         robot, writer = FakeRobot(), FakeWriter()
         session = RecordingSession(robot, FakeLeader(), lambda _: writer)

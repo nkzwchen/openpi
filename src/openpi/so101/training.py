@@ -51,3 +51,15 @@ def compute_norm_stats(config):
     norm = {key: running.get_statistics() for key, running in stats.items()}
     normalize.save(config.assets_dirs / dc.asset_id, norm)
     return len(dataset)
+
+
+def frozen_vlm_filter():
+    """Freeze SigLIP and PaliGemma, including VLM adapters; retain action expert."""
+    import flax.nnx as nnx
+
+    from openpi.shared import nnx_utils
+
+    return nnx.Any(
+        nnx_utils.PathRegex(r"PaliGemma/img/.*"),
+        nnx.All(nnx_utils.PathRegex(r"PaliGemma/llm/.*"), nnx.Not(nnx_utils.PathRegex(r".*_1.*"))),
+    )

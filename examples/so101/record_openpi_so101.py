@@ -37,6 +37,12 @@ def main():
     parser.add_argument("--timeout-s", type=float, default=1.0)
     parser.add_argument("--max-age-s", type=float, default=0.3)
     parser.add_argument(
+        "--inference-image-size",
+        type=int,
+        default=224,
+        help="Letterbox transmitted frames only; 0 sends original full resolution",
+    )
+    parser.add_argument(
         "--max-relative-target",
         type=float,
         default=5.0,
@@ -45,6 +51,8 @@ def main():
     parser.add_argument("--max-takeovers", type=int, default=0)
     parser.add_argument("--terminal-controls", action="store_true")
     args = parser.parse_args()
+    if args.inference_image_size < 0:
+        parser.error("--inference-image-size must be nonnegative")
     if not args.hardware:
         print(
             json.dumps(
@@ -94,19 +102,21 @@ def main():
         if args.policy_uri:
             client = BoundedWebsocketClient(args.policy_uri, timeout_s=args.timeout_s)
             policy = AsyncChunkPolicy(
-                client, execute_steps=args.execute_steps, timeout_s=args.timeout_s, max_age_s=args.max_age_s
+                client,
+                execute_steps=args.execute_steps,
+                timeout_s=args.timeout_s,
+                max_age_s=args.max_age_s,
+                inference_image_size=args.inference_image_size or None,
             )
             policy.before_episode()
             # A real request completes before devices or control window are opened.
             import numpy as np
 
-            from openpi.so101.contract import observation_to_input
-
             warm = {
                 "state": np.zeros(6, np.float32),
                 **{c: np.zeros((args.height, args.width, 3), np.uint8) for c in CAMERAS},
             }
-            client.infer(observation_to_input(warm))
+            client.infer(policy.prepare_inputs(warm))
         robot = SOFollower(
             SOFollowerRobotConfig(
                 port=args.follower_port,

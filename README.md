@@ -8,7 +8,7 @@
 
 当前任务指令为 `pick blocks from table`：两路完整 RGB 视频（主视角、腕部视角），无 ROI、无冻结关节；记录六维从臂实测位置和六维绝对目标位置（含夹爪）。使用 LeRobot `use_degrees=False` 的标定位置单位，不使用增量动作。OpenPI 与机器人采集使用独立 Python 环境，通过轻量 WebSocket 客户端通信；原有 HIL-SERL 数据与 RL replay 保持独立。
 
-实施、离线验收和部署步骤见 [SO101 OpenPI 采集与 DAgger](docs/so101/README.md)。离线预检默认不打开设备；真机入口必须显式传入 `--hardware`、串口和两路相机设备。旧试管插入的 ROI/18维状态/3维增量数据不属于这个新契约。
+实施、离线验收和部署步骤见 [SO101 OpenPI 采集与 DAgger](docs/so101/README.md)，性能数据见 [冻结VLM训练、JAX量化与10Hz部署报告](docs/so101/benchmark-20261018.md)。离线预检默认不打开设备；真机入口必须显式传入 `--hardware`、串口和两路相机设备。旧试管插入的 ROI/18维状态/3维增量数据不属于这个新契约。
 
 openpi holds open-source models and packages for robotics, published by the [Physical Intelligence team](https://www.physicalintelligence.company/).
 

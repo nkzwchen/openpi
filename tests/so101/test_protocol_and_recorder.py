@@ -217,5 +217,28 @@ class ServingConfigTests(unittest.TestCase):
             self.assertEqual(events, ["warm", "listen"])
 
 
+@unittest.skipUnless(importlib.util.find_spec("jax"), "requires OpenPI JAX environment")
+class FrozenVLMFilterTests(unittest.TestCase):
+    def test_freeze_vision_language_but_not_action_expert(self):
+        from openpi.so101.training import frozen_vlm_filter
+
+        frozen = frozen_vlm_filter()
+        for path in (
+            "PaliGemma/img/Transformer/encoderblock/MlpBlock_0/Dense_1/kernel",
+            "PaliGemma/llm/embedder/input_embedding",
+            "PaliGemma/llm/layers/attn/q_einsum/w",
+            "PaliGemma/llm/layers/attn/q_einsum/lora_a",
+        ):
+            self.assertTrue(frozen(tuple(path.split("/")), None), path)
+        for path in (
+            "PaliGemma/llm/layers/attn/q_einsum_1/w",
+            "PaliGemma/llm/layers/mlp_1/linear",
+            "action_in_proj/kernel",
+            "action_out_proj/kernel",
+            "time_mlp_in/kernel",
+        ):
+            self.assertFalse(frozen(tuple(path.split("/")), None), path)
+
+
 if __name__ == "__main__":
     unittest.main()

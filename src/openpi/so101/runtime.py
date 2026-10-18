@@ -8,6 +8,7 @@ import time
 
 import numpy as np
 
+from openpi.so101.contract import CAMERAS
 from openpi.so101.contract import PROMPT
 from openpi.so101.contract import UNITS
 from openpi.so101.contract import VERSION
@@ -16,12 +17,30 @@ from openpi.so101.contract import validate_action
 
 
 class AsyncChunkPolicy:
-    def __init__(self, client, *, execute_steps=1, timeout_s=1.0, max_age_s=0.3, prompt=PROMPT, clock=time.monotonic):
+    def __init__(
+        self,
+        client,
+        *,
+        execute_steps=1,
+        timeout_s=1.0,
+        max_age_s=0.3,
+        prompt=PROMPT,
+        inference_image_size: int | None = 224,
+        clock=time.monotonic,
+    ):
         if execute_steps < 1 or timeout_s <= 0 or max_age_s <= 0:
             raise ValueError("Invalid execution window/deadline")
         self.client, self.execute_steps, self.timeout_s, self.max_age_s = client, execute_steps, timeout_s, max_age_s
         self.prompt, self.clock = prompt, clock
-        self.metadata = {"contract": VERSION, "prompt": prompt, "execute_steps": execute_steps}
+        if inference_image_size is not None and inference_image_size < 1:
+            raise ValueError("inference_image_size must be positive or None")
+        self.inference_image_size = inference_image_size
+        self.metadata = {
+            "contract": VERSION,
+            "prompt": prompt,
+            "execute_steps": execute_steps,
+            "inference_image_size": inference_image_size,
+        }
         self._executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="openpi-infer")
         self._future = None
         self._chunk = None
@@ -33,6 +52,17 @@ class AsyncChunkPolicy:
         self.last_execution = None
         self.events = []
         self._lock = threading.Lock()
+
+    def prepare_inputs(self, obs):
+        """Resize only the transmitted copy; preserve full recorded frames and field of view."""
+        inputs = observation_to_input(obs, self.prompt)
+        if self.inference_image_size is not None:
+            from openpi_client.image_tools import resize_with_pad
+
+            for camera in CAMERAS:
+                key = f"observation/{camera}"
+                inputs[key] = resize_with_pad(inputs[key], self.inference_image_size, self.inference_image_size)
+        return inputs
 
     def _log(self, event, **fields):
         self.events.append({"event": event, "monotonic_s": self.clock(), "generation": self._generation, **fields})
@@ -134,7 +164,7 @@ class AsyncChunkPolicy:
                         self._chunk = None
                     return action
             if self._future is None:
-                inputs = observation_to_input(obs, self.prompt)
+                inputs = self.prepare_inputs(obs)
                 self._request_id += 1
                 self._future = (
                     self._executor.submit(self._infer, copy.deepcopy(inputs), self._generation, self._request_id, now),
