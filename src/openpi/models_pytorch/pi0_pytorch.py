@@ -371,7 +371,8 @@ class PI0Pytorch(nn.Module):
 
         v_t = self._apply_checkpoint(action_out_proj_func, suffix_out)
 
-        return F.mse_loss(u_t, v_t, reduction="none")
+        loss_dim = self.config.loss_action_dim or self.config.action_dim
+        return F.mse_loss(u_t[..., :loss_dim], v_t[..., :loss_dim], reduction="none")
 
     @torch.no_grad()
     def sample_actions(self, device, observation, noise=None, num_steps=10) -> Tensor:

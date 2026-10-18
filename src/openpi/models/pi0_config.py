@@ -23,6 +23,8 @@ class Pi0Config(_model.BaseModelConfig):
 
     # Set the model specific defaults.
     action_dim: int = 32
+    # Optionally supervise only real action dimensions while retaining checkpoint shapes.
+    loss_action_dim: int | None = None
     action_horizon: int = 50
     max_token_len: int = None  # type: ignore
     # Pi05 has two differences from Pi0:
@@ -35,6 +37,8 @@ class Pi0Config(_model.BaseModelConfig):
     pytorch_compile_mode: str | None = "max-autotune"
 
     def __post_init__(self):
+        if self.loss_action_dim is not None and not 1 <= self.loss_action_dim <= self.action_dim:
+            raise ValueError("loss_action_dim must be between 1 and action_dim")
         if self.max_token_len is None:
             object.__setattr__(self, "max_token_len", 200 if self.pi05 else 48)
         if self.discrete_state_input is None:

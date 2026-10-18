@@ -21,6 +21,7 @@ import openpi.policies.aloha_policy as aloha_policy
 import openpi.policies.droid_policy as droid_policy
 import openpi.policies.libero_policy as libero_policy
 import openpi.policies.so101_policy as so101_policy
+import openpi.policies.so101_absolute_policy as so101_absolute_policy
 import openpi.shared.download as _download
 import openpi.shared.normalize as _normalize
 import openpi.training.droid_rlds_dataset as droid_rlds_dataset
@@ -267,6 +268,27 @@ class LeRobotSO101DataConfig(DataConfigFactory):
             data_transforms=data_transforms,
             model_transforms=model_transforms,
             action_sequence_keys=self.action_sequence_keys,
+        )
+
+
+@dataclasses.dataclass(frozen=True)
+class LeRobotSO101AbsoluteDataConfig(DataConfigFactory):
+    """Reviewed expert sequences; no DeltaActions or AbsoluteActions transforms."""
+
+    @override
+    def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
+        return dataclasses.replace(
+            self.create_base_config(assets_dirs, model_config),
+            repack_transforms=_transforms.Group(inputs=[_transforms.RepackTransform({
+                "observation/cam_main": "observation.images.cam_main",
+                "observation/cam_wrist": "observation.images.cam_wrist",
+                "observation/state": "observation.state", "actions": "action", "prompt": "prompt",
+            })]),
+            data_transforms=_transforms.Group(
+                inputs=[so101_absolute_policy.AbsoluteInputs()], outputs=[so101_absolute_policy.AbsoluteOutputs()],
+            ),
+            model_transforms=ModelTransformFactory()(model_config),
+            action_sequence_keys=("action",),
         )
 
 
@@ -1000,6 +1022,23 @@ _CONFIGS = [
         ),
         optimizer=_optimizer.AdamW(clip_gradient_norm=1.0),
         ema_decay=0.999,
+    ),
+    #
+    # Reviewed 6-state / 6-action SO101 data. Override repo_id for each immutable export.
+    # Keep the pretrained 32-wide projections; supervise only the six real dimensions.
+    #
+    TrainConfig(
+        name="pi05_so101_absolute6",
+        model=pi0_config.Pi0Config(pi05=True, action_horizon=10, loss_action_dim=6, discrete_state_input=True),
+        data=LeRobotSO101AbsoluteDataConfig(
+            repo_id="data/so101_openpi_v1/train",
+            assets=AssetsConfig(asset_id="so101_openpi_absolute_v1"),
+            base_config=DataConfig(prompt_from_task=True),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader("gs://openpi-assets/checkpoints/pi05_base/params"),
+        batch_size=2,
+        num_workers=0,
+        num_train_steps=20_000,
     ),
     #
     # Debugging configs.

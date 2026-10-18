@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import io
 import logging
 from pathlib import Path
 from typing import Sequence
@@ -8,6 +9,7 @@ from typing import Sequence
 import numpy as np
 import pandas as pd
 import torch
+from PIL import Image
 
 from lerobot.common.datasets.video_utils import decode_video_frames
 
@@ -71,6 +73,20 @@ class LocalLeRobotV3Dataset(torch.utils.data.Dataset):
         self._episode_by_index = self.episodes.set_index("episode_index", drop=False)
         self._data = self._load_data().sort_values("index").reset_index(drop=True)
         self._data_by_global_index = self._data.set_index("index", drop=False)
+        self._sample_rows = np.arange(len(self._data))
+        if self.info.get("full_horizon_only"):
+            from openpi.so101.contract import VERSION
+
+            if self.info.get("openpi_contract") != VERSION:
+                raise ValueError("Unknown full-horizon dataset contract")
+            if not (self.root.parent / "COMPLETE").is_file() or (self.root.parent / "INCOMPLETE").exists():
+                raise ValueError("Dataset export is incomplete")
+            if action_horizon != self.info["export_horizon"]:
+                raise ValueError("Action horizon must match the reviewed export horizon")
+            ends = self._data["episode_index"].map(self._episode_by_index["dataset_to_index"])
+            self._sample_rows = np.flatnonzero(self._data["index"].to_numpy() + action_horizon <= ends.to_numpy())
+            if len(self._sample_rows) == 0:
+                raise ValueError("No full expert action windows")
 
     def _load_tasks(self) -> dict[int, str]:
         tasks_df = pd.read_parquet(self.root / "meta" / "tasks.parquet")
@@ -93,10 +109,10 @@ class LocalLeRobotV3Dataset(torch.utils.data.Dataset):
         return pd.concat((pd.read_parquet(path) for path in files), ignore_index=True)
 
     def __len__(self) -> int:
-        return len(self._data)
+        return len(self._sample_rows)
 
     def __getitem__(self, index: int) -> dict:
-        row = self._data.iloc[int(index)]
+        row = self._data.iloc[int(self._sample_rows[int(index)])]
         episode = self._episode_by_index.loc[int(row["episode_index"])]
 
         item = {
@@ -110,6 +126,15 @@ class LocalLeRobotV3Dataset(torch.utils.data.Dataset):
 
         for key in self.features:
             if key in item or key in self.video_keys:
+                continue
+            if self.features[key]["dtype"] == "image":
+                if not self.decode_videos:
+                    item[key] = np.zeros(self.features[key]["shape"], dtype=np.uint8)
+                else:
+                    value = row[key]
+                    source = io.BytesIO(value["bytes"]) if value.get("bytes") is not None else self.root / value["path"]
+                    with Image.open(source) as image:
+                        item[key] = np.asarray(image.convert("RGB"))
                 continue
             if key in self.action_sequence_keys:
                 item[key] = self._query_sequence(row, episode, key)

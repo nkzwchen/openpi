@@ -1,5 +1,15 @@
 # openpi
 
+## 本项目的代码管理与采集接管边界
+
+本地终端与云端统一使用 Git 仓库 `git@github.com:nkzwchen/openpi.git`。本地目录为 `/home/nkzwchen/pi_project/openpi`，当前云端目录为 `/root/gpufree-data/openpi`；协作时通过同一开发分支和提交号核对代码版本。数据集、模型权重、运行产物和机器专属配置不随代码同步。
+
+**采集与人工接管流程已在本仓库独立实现。** `examples/so101/` 中的 GUI、按键、接管次数设置和异步录制器源自本地 HIL-SERL 工作区；OpenPI 维护独立副本，原 `hil-serl` 不改动。新入口为 `examples/so101/record_openpi_so101.py`，不再调用旧的三关节相对动作录制入口。
+
+当前任务指令为 `pick blocks from table`：两路完整 RGB 视频（主视角、腕部视角），无 ROI、无冻结关节；记录六维从臂实测位置和六维绝对目标位置（含夹爪）。使用 LeRobot `use_degrees=False` 的标定位置单位，不使用增量动作。OpenPI 与机器人采集使用独立 Python 环境，通过轻量 WebSocket 客户端通信；原有 HIL-SERL 数据与 RL replay 保持独立。
+
+实施、离线验收和部署步骤见 [SO101 OpenPI 采集与 DAgger](docs/so101/README.md)。离线预检默认不打开设备；真机入口必须显式传入 `--hardware`、串口和两路相机设备。旧试管插入的 ROI/18维状态/3维增量数据不属于这个新契约。
+
 openpi holds open-source models and packages for robotics, published by the [Physical Intelligence team](https://www.physicalintelligence.company/).
 
 Currently, this repo contains three types of models:
