@@ -180,3 +180,19 @@ done
 ```
 
 `flashrt-fp8-vlm` 将视觉和语言部分的受支持矩阵乘法设为 FP8，动作专家保持 BF16；`flashrt-fp8` 还量化动作专家的大型矩阵乘法。运行时通过 `--cpu-threads` 设置 CPU 线程数，默认 2。通过 `--num-steps 10` 测试十步去噪；`--warmup`、`--iterations` 默认均为 100。JAX 默认仅计算两路有效图像，`--jax-camera-slots 3` 可保留原有第三路屏蔽图像的计算。FlashRT 的计时包含图像预处理与传输，JAX 的计时从已就绪的设备输入开始，具体范围写入输出 JSON。此脚本仅用于离线基准，不启动机器人。
+
+变状态与多轮稳定性测试：
+
+```bash
+JAX_PLATFORMS=cpu python scripts/benchmarks/fp8_runtime.py \
+  --backend flashrt-fp8-vlm --weights <JAX权重目录> --num-steps 5 \
+  --sample-kind mixed --vary-state --include-prompt-update \
+  --state-prompt-mode fixed --calibration-samples 32 --evaluation-samples 32 \
+  --rounds 3 --iterations 200 --warmup 100 \
+  --seed 20261020 --calibration-seed 20261021 \
+  --output data/benchmarks/fp8-vlm-mixed-state.json
+```
+
+`--sample-kind mixed` 生成明暗、渐变、纹理等合成图像；`--vary-state` 每帧改变归一化六维状态，必须同时指定 `--include-prompt-update`。`fixed` 使用固定提示词容量，`exact` 按 token 长度准备计算图。`--calibration-percentile` 设置多帧尺度统计百分位，默认 100。输出包含分轮延迟、最大延迟和超过 100 ms 的次数；合成图像校准仍使用零状态。
+
+追加 `--request-hz 10 --rounds 1 --iterations 200` 可按 10 Hz 发起测试请求；主动等待不计入单次推理延迟。默认 `--request-hz 0` 连续发起请求。

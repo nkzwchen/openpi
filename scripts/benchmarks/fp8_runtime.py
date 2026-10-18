@@ -18,13 +18,28 @@ import time
 import numpy as np
 
 
-def samples(seed, count, horizon):
+def samples(seed, count, horizon, kind="random"):
     import ml_dtypes
 
     rng = np.random.default_rng(seed)
     result = []
-    for _ in range(count):
+    for index in range(count):
         images = [rng.integers(0, 256, (224, 224, 3), dtype=np.uint8) for _ in range(2)]
+        if kind == "mixed":
+            for view in range(2):
+                case = (index + view) % 6
+                if case == 1:
+                    images[view] //= 8
+                elif case == 2:
+                    images[view] = 224 + images[view] // 8
+                elif case == 3:
+                    x = np.linspace(0, 255, 224, dtype=np.uint8)
+                    images[view] = np.broadcast_to(x[None, :, None], (224, 224, 3)).copy()
+                elif case == 4:
+                    images[view] = np.repeat(np.repeat(images[view][:32, :32], 7, axis=0), 7, axis=1)
+                elif case == 5:
+                    images[view][:112, :112] = [220, 30, 20]
+                    images[view][112:, 112:] = [20, 200, 40]
         noise = rng.standard_normal((horizon, 32)).astype(ml_dtypes.bfloat16).astype(np.float32)
         noise[:, 6:] = 0
         result.append((images, noise))
@@ -43,16 +58,44 @@ def main():
     parser.add_argument("--iterations", type=int, default=100)
     parser.add_argument("--calibration-samples", type=int, default=8)
     parser.add_argument("--evaluation-samples", type=int, default=8)
+    parser.add_argument("--seed", type=int, default=20261018)
+    parser.add_argument("--calibration-seed", type=int, default=20261019)
+    parser.add_argument("--sample-kind", choices=["random", "mixed"], default="random")
+    parser.add_argument("--vary-state", action="store_true")
+    parser.add_argument("--include-prompt-update", action="store_true")
+    parser.add_argument("--state-prompt-mode", choices=["exact", "fixed"], default="exact")
+    parser.add_argument("--rounds", type=int, default=1)
+    parser.add_argument("--request-hz", type=float, default=0, help="Pace requests; zero means continuous")
+    parser.add_argument("--calibration-percentile", type=float, default=100.0)
     parser.add_argument("--jax-camera-slots", type=int, choices=[2, 3], default=2)
     args = parser.parse_args()
-    for name in ("num_steps", "horizon", "iterations", "calibration_samples", "evaluation_samples", "cpu_threads"):
+    for name in (
+        "num_steps",
+        "horizon",
+        "iterations",
+        "calibration_samples",
+        "evaluation_samples",
+        "cpu_threads",
+        "rounds",
+    ):
         if getattr(args, name) <= 0:
             parser.error(f"{name} must be positive")
+    if args.request_hz < 0:
+        parser.error("--request-hz must be nonnegative")
+    if args.vary_state and not args.include_prompt_update:
+        parser.error("--vary-state requires --include-prompt-update so state-update cost is measured")
+    if not 0 <= args.calibration_percentile <= 100:
+        parser.error("--calibration-percentile must be between 0 and 100")
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    evaluation = samples(20261018, args.evaluation_samples, args.horizon)
-    calibration = samples(20261019, args.calibration_samples, args.horizon)
+    evaluation = samples(args.seed, args.evaluation_samples, args.horizon, args.sample_kind)
+    calibration = samples(args.calibration_seed, args.calibration_samples, args.horizon, args.sample_kind)
     prompt = "pick blocks from table"
     state = np.zeros(6, np.float32)
+    states = (
+        np.random.default_rng(args.seed + 100).uniform(-0.95, 0.95, (len(evaluation), 6)).astype(np.float32)
+        if args.vary_state
+        else np.zeros((len(evaluation), 6), np.float32)
+    )
     start = time.perf_counter()
     metadata = {}
     temp = None
@@ -78,9 +121,10 @@ def main():
                 return original_preprocess(rng, observation, **kwargs)
 
             model_lib.preprocess_observation = two_view_preprocess
-        tokens, mask = PaligemmaTokenizer(200).tokenize(prompt, state)
+        tokenizer = PaligemmaTokenizer(200)
         obs_list = []
-        for images, _ in evaluation:
+        for index, (images, _) in enumerate(evaluation):
+            tokens, mask = tokenizer.tokenize(prompt, states[index])
             images_dict = {
                 "base_0_rgb": jnp.asarray(images[0].astype(np.float32) / 127.5 - 1.0)[None],
                 "left_wrist_0_rgb": jnp.asarray(images[1].astype(np.float32) / 127.5 - 1.0)[None],
@@ -100,7 +144,15 @@ def main():
         key = jax.random.key(1)
 
         def infer(index):
-            result = fn(key, obs_list[index], num_steps=args.num_steps, noise=noises[index])
+            obs = obs_list[index]
+            if args.include_prompt_update:
+                live_tokens, live_mask = tokenizer.tokenize(prompt, states[index])
+                obs = dataclasses.replace(
+                    obs,
+                    tokenized_prompt=jnp.asarray(live_tokens)[None],
+                    tokenized_prompt_mask=jnp.asarray(live_mask)[None],
+                )
+            result = fn(key, obs, num_steps=args.num_steps, noise=noises[index])
             jax.block_until_ready(result)
             return result
 
@@ -157,18 +209,23 @@ def main():
             use_cuda_graph=True,
             hardware="rtx_sm89",
             cache_frames=1,
+            state_prompt_mode=args.state_prompt_mode,
         )
         pipe.set_prompt(prompt, state=state)
         # Calibration and evaluation image sets use different seeds. Both are
         # synthetic and cannot establish closed-loop task success.
-        torch.manual_seed(20261019)
-        pipe.calibrate([{"images": images} for images, _ in calibration], percentile=100.0)
+        torch.manual_seed(args.calibration_seed)
+        pipe.calibrate([{"images": images} for images, _ in calibration], percentile=args.calibration_percentile)
         torch.cuda.synchronize()
         if args.backend.startswith("flashrt-fp8") and not pipe.pipeline.use_fp8:
             raise RuntimeError("FP8 requested but runtime disabled FP8")
 
         def infer(index):
             images, noise = evaluation[index]
+            if args.include_prompt_update:
+                pipe.set_prompt(prompt, state=states[index])
+                if not pipe.calibrated:
+                    pipe.calibrate([{"images": images}])
             result = pipe.infer({"images": images}, noise=noise)
             torch.cuda.synchronize()
             return result
@@ -190,23 +247,52 @@ def main():
             use_fp8=pipe.pipeline.use_fp8,
             use_fp8_decoder=pipe.pipeline.use_fp8_decoder,
             fp8_tensor_bytes=quantized_bytes,
-            calibration_seed=20261019,
-            calibration_percentile=100.0,
+            calibration_seed=args.calibration_seed,
+            calibration_percentile=args.calibration_percentile,
+            calibration_state="zero six-dimensional state; image variation only",
+            state_prompt_mode=args.state_prompt_mode,
             timing_scope="host uint8 images + fixed prompt -> synchronized actions; includes image prep/H2D and output copy; prompt tokenization excluded",
             external_frontend_file=str(Path(frontend.__file__).resolve()),
             frontend_sha256=hashlib.sha256(Path(frontend.__file__).read_bytes()).hexdigest(),
         )
+    if args.include_prompt_update:
+        metadata["timing_scope"] = (
+            "prepared device images + host state -> tokenize, upload tokens, synchronized device actions"
+            if args.backend == "jax"
+            else "host uint8 images + host state -> update prompt, image prep/H2D, synchronized host actions; "
+            "initial model load and calibration excluded; newly encountered exact-mode graph setup included"
+        )
+    metadata["includes_prompt_update"] = args.include_prompt_update
     infer(0)
     startup_s = time.perf_counter() - start
     for i in range(args.warmup):
         infer(i % len(evaluation))
     timings = []
-    for i in range(args.iterations):
-        t = time.perf_counter()
-        infer(i % len(evaluation))
-        timings.append((time.perf_counter() - t) * 1000)
+    round_results = []
+    for round_index in range(args.rounds):
+        round_times = []
+        next_request = time.perf_counter()
+        for i in range(args.iterations):
+            if args.request_hz:
+                time.sleep(max(0, next_request - time.perf_counter()))
+                next_request += 1 / args.request_hz
+            t = time.perf_counter()
+            infer(i % len(evaluation))
+            round_times.append((time.perf_counter() - t) * 1000)
+        timings.extend(round_times)
+        round_results.append(
+            {
+                "round": round_index,
+                "median_ms": float(np.median(round_times)),
+                "p99_ms": float(np.percentile(round_times, 99)),
+                "max_ms": max(round_times),
+            }
+        )
     actions = [extract(infer(i)).tolist() for i in range(len(evaluation))]
     value = np.asarray(actions, np.float32)
+    repeat_max_abs_error = float(np.max(np.abs(extract(infer(0)) - value[0])))
+    if repeat_max_abs_error != 0:
+        raise AssertionError(f"Repeated input/noise changed output: {repeat_max_abs_error}")
     if not np.isfinite(value).all():
         raise RuntimeError("Non-finite actions")
     report = {
@@ -217,7 +303,14 @@ def main():
         "effective_action_dim": 6,
         "num_steps": args.num_steps,
         "synthetic_inputs": True,
-        "evaluation_seed": 20261018,
+        "evaluation_seed": args.seed,
+        "sample_kind": args.sample_kind,
+        "vary_state": args.vary_state,
+        "include_prompt_update": args.include_prompt_update,
+        "evaluation_states": states.tolist(),
+        "round_results": round_results,
+        "timing_samples": len(timings),
+        "request_hz": args.request_hz,
         "state": state.tolist(),
         "evaluation_samples": len(evaluation),
         "calibration_samples": len(calibration),
@@ -228,7 +321,10 @@ def main():
         "p95_ms": float(np.percentile(timings, 95)),
         "p99_ms": float(np.percentile(timings, 99)),
         "mean_ms": float(np.mean(timings)),
+        "max_ms": max(timings),
+        "over_100ms": sum(t > 100 for t in timings),
         "finite": True,
+        "repeat_max_abs_error": repeat_max_abs_error,
         "metadata": metadata,
         "normalized_actions": actions,
         "quality_limit": "Synthetic-input numerical parity only, no task success evaluation; native BF16 runtime differences must be assessed separately from FP8 quantization.",
