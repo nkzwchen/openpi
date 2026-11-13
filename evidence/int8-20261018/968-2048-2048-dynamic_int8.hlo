@@ -110,4 +110,3 @@ ENTRY %main.81 (Arg_0.1.0: bf16[968,2048], Arg_1.2.0: bf16[2048,2048]) -> bf16[9
   %Arg_0.1.0 = bf16[968,2048]{1,0} parameter(0), metadata={op_name="x"}
   ROOT %call = bf16[968,2048]{1,0} call(%Arg_0.1.0, %Arg_1.2.0), to_apply=%command_buffer
 }
-

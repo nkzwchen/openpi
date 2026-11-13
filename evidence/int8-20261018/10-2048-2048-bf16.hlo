@@ -12,4 +12,3 @@ ENTRY %main.4 (Arg_0.1.0: bf16[10,2048], Arg_1.2.0: bf16[2048,2048]) -> bf16[10,
   %Arg_0.1.0 = bf16[10,2048]{1,0} parameter(0), metadata={op_name="a"}
   ROOT %gemm_fusion_dot.3.0 = bf16[10,2048]{1,0} fusion(%Arg_0.1.0, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.3_computation, metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=28}, backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"fusion_backend_config":{"kind":"__triton_gemm","triton_gemm_config":{"block_m":"64","block_n":"16","block_k":"128","split_k":"1","num_stages":"4","num_warps":"4","num_ctas":"1"}},"force_earliest_schedule":false}
 }
-

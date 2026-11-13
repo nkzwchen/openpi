@@ -1,7 +1,7 @@
 {
   "export_date": "2026-11-13",
   "experiment_date": "2026-10-18",
-  "transformation": "Replace machine absolute workspace/dataset prefixes with placeholders; numerical results unchanged.",
+  "transformation": "Replace machine absolute workspace/dataset prefixes with placeholders; numerical results unchanged. Normalize trailing blank lines in exported HLO text.",
   "files": [
     {
       "file": "fp8-real-20261018/fixture_manifest.json",
@@ -51,82 +51,82 @@
     {
       "file": "int8-20261018/10-2048-2048-bf16.hlo",
       "original_local_sha256": "10f7ecab79f50251e745be04952a71acd53f565817cde4419d18815b92852b92",
-      "published_sha256": "10f7ecab79f50251e745be04952a71acd53f565817cde4419d18815b92852b92"
+      "published_sha256": "a3057dafc5b0cc28166516cdea58904d0a6b12b681f71bee5e8c02fa54b8a536"
     },
     {
       "file": "int8-20261018/10-2048-2048-dynamic_int8.hlo",
       "original_local_sha256": "7d784d85c9b3d4d3818e8b26abc8df887f2a61b8e3a2a729b76566386313d0fd",
-      "published_sha256": "0271e0b974d61c6423dc3740731e97c1b9667bd84c1791be68c52df68042442a"
+      "published_sha256": "34fd896085c09e1c06270db90fa957f5b5f2ab30c71b8290d4902ce8e8d03795"
     },
     {
       "file": "int8-20261018/10-2048-2048-prequant_weight_int8.hlo",
       "original_local_sha256": "cf83ed33980482689ab8cd6d71bcde57a7876ff241d4998bb184842c88f139be",
-      "published_sha256": "cf83ed33980482689ab8cd6d71bcde57a7876ff241d4998bb184842c88f139be"
+      "published_sha256": "7c4140dc2c9e269fd5b4af52fff8200f9bcb1d99afe4ab44933ef8cc24a95763"
     },
     {
       "file": "int8-20261018/10-2048-2048-raw_int8_gemm.hlo",
       "original_local_sha256": "f030bc653c4653c5b59ffc1f0c000f9e628da8e5737dd9334fb2f71d2a7c8df0",
-      "published_sha256": "f030bc653c4653c5b59ffc1f0c000f9e628da8e5737dd9334fb2f71d2a7c8df0"
+      "published_sha256": "ac8f709aac0fe7a960533c7618cc23fd284a8475debb533d4480042057500e7a"
     },
     {
       "file": "int8-20261018/256-2048-2048-bf16.hlo",
       "original_local_sha256": "4c44993a196903878bebb527c9d7c91db4a559b138855f2ec1628f8490ab351c",
-      "published_sha256": "4c44993a196903878bebb527c9d7c91db4a559b138855f2ec1628f8490ab351c"
+      "published_sha256": "c56981d6f062eb3de7ec63b13c4524a15ea2c69cb18e20a19664f39feed89515"
     },
     {
       "file": "int8-20261018/256-2048-2048-dynamic_int8.hlo",
       "original_local_sha256": "6e6846186ea0d9f25b2c1fce2c2d5f81764d8efb3ba524e2d8f7d59473c5e6d6",
-      "published_sha256": "599e24c92f30f290ed47c809afe03177126a7621fb7ff7de3205ec20b994a44f"
+      "published_sha256": "6e4c6880f9cecee4be4be81ee3bfd0b5795f982c3cac13fd316b6297332f298d"
     },
     {
       "file": "int8-20261018/256-2048-2048-prequant_weight_int8.hlo",
       "original_local_sha256": "f547ead22d46cf5ccaaf0dafb6608b5d37e3d52498997183ca326232d7024e35",
-      "published_sha256": "f547ead22d46cf5ccaaf0dafb6608b5d37e3d52498997183ca326232d7024e35"
+      "published_sha256": "9c5471a126dcb3ecfc4b53d47eabe9f0aa81293fc1c043b52da12d69333bfb69"
     },
     {
       "file": "int8-20261018/256-2048-2048-raw_int8_gemm.hlo",
       "original_local_sha256": "1c4f90c58a41e946b77758a714939a9c4fbc67182af82b753fedb20be165497d",
-      "published_sha256": "1c4f90c58a41e946b77758a714939a9c4fbc67182af82b753fedb20be165497d"
+      "published_sha256": "81ed2573d3094f7c65f96c148325db3f490ee169aff44e000a2d77410e196c5a"
     },
     {
       "file": "int8-20261018/968-2048-16384-bf16.hlo",
       "original_local_sha256": "7d25a29a0ecb96e322a6645d57e53c846c65c9f7dfbc222352226ccea6d9492e",
-      "published_sha256": "7d25a29a0ecb96e322a6645d57e53c846c65c9f7dfbc222352226ccea6d9492e"
+      "published_sha256": "2ae53cdd190b1ba64d887952491434ef598b143e4aa810e861e478105291bf61"
     },
     {
       "file": "int8-20261018/968-2048-16384-dynamic_int8.hlo",
       "original_local_sha256": "7e86b12e75f9de8d146968dff82b1000daa186b0b00b200b828897cfde0fb8c3",
-      "published_sha256": "dcdd160568118e7464484d98ce19026c10f4190be5f449901eb3d0ba58e14344"
+      "published_sha256": "d0f030df94ea29d797110cfd484aa56e57cfb72be7d0b0c3941bd30008feed0c"
     },
     {
       "file": "int8-20261018/968-2048-16384-prequant_weight_int8.hlo",
       "original_local_sha256": "336cfe38c69d0697becdc09eb8a61634a200ffe6170653a9a3f1ccfe1ca676fe",
-      "published_sha256": "336cfe38c69d0697becdc09eb8a61634a200ffe6170653a9a3f1ccfe1ca676fe"
+      "published_sha256": "bf22e446fb30c288181dbbaaa20a744d9ab81be9aeed993c9331e30d907a3c9c"
     },
     {
       "file": "int8-20261018/968-2048-16384-raw_int8_gemm.hlo",
       "original_local_sha256": "6c1c9d6108996103f2e028049355a2ec95b2195a203b627cad2b641bd72c8771",
-      "published_sha256": "6c1c9d6108996103f2e028049355a2ec95b2195a203b627cad2b641bd72c8771"
+      "published_sha256": "24266c6f23e16ef6d8083c3a3d88a105bbba8af66db5e6c3e6e68c7148ffe7ed"
     },
     {
       "file": "int8-20261018/968-2048-2048-bf16.hlo",
       "original_local_sha256": "49e3473a6365d60dc44785e31bd66a411a0b2575c648eaf84624d0020b9577ac",
-      "published_sha256": "49e3473a6365d60dc44785e31bd66a411a0b2575c648eaf84624d0020b9577ac"
+      "published_sha256": "6b753907ac033eccf09f2afac5ed40fb7610cde72b5d5856ba904fa0a8549779"
     },
     {
       "file": "int8-20261018/968-2048-2048-dynamic_int8.hlo",
       "original_local_sha256": "d28d124684fb07dd9e438cf72024dde04c7250853e406b900fb685f45dd01c8c",
-      "published_sha256": "3028fe523963b7faceca30d9bbb97b2d8ee788be99840e2d988c8cecc221f00e"
+      "published_sha256": "5e454df325660873fab7154f7912b8c0e69c113f93f81034d94de8d459b5c3bd"
     },
     {
       "file": "int8-20261018/968-2048-2048-prequant_weight_int8.hlo",
       "original_local_sha256": "ddf53197de825d247fefe31d4d5b0cd1763f454d98dfef187c24719f40eb3794",
-      "published_sha256": "ddf53197de825d247fefe31d4d5b0cd1763f454d98dfef187c24719f40eb3794"
+      "published_sha256": "cf732a3110775a7bb85f026b54f3cffcc774f567a021194a35240150bc232c9a"
     },
     {
       "file": "int8-20261018/968-2048-2048-raw_int8_gemm.hlo",
       "original_local_sha256": "11f532e0b6a58c091271d7fc5f95aa24d3fa05817f5015b0a7c2606761f63625",
-      "published_sha256": "11f532e0b6a58c091271d7fc5f95aa24d3fa05817f5015b0a7c2606761f63625"
+      "published_sha256": "58fd0eadb3dc639c84f8f09289e7016ed5d337b5e43d28c6600a8b96fd163e35"
     },
     {
       "file": "int8-20261018/probe.py",

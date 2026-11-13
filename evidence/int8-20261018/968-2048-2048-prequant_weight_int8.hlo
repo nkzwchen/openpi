@@ -77,4 +77,3 @@ ENTRY %main.53 (Arg_0.1.0: bf16[968,2048], Arg_1.2.0: s8[2048,2048], Arg_2.3.0: 
   %Arg_1.2.0 = s8[2048,2048]{1,0} parameter(1), metadata={op_name="b"}
   ROOT %call = bf16[968,2048]{1,0} call(%Arg_0.1.0, %Arg_1.2.0, %Arg_2.3.0), to_apply=%command_buffer
 }
-

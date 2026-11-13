@@ -82,4 +82,3 @@ ENTRY %main.53 (Arg_0.1.0: bf16[10,2048], Arg_1.2.0: s8[2048,2048], Arg_2.3.0: f
   %gemm_fusion_dot.42.0 = f32[16,10,2048]{2,1,0} fusion(%loop_convert_fusion.1, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.42_computation, metadata={op_name="jit(prequant)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=25}, backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"fusion_backend_config":{"kind":"__triton_gemm","triton_gemm_config":{"block_m":"64","block_n":"16","block_k":"32","split_k":"16","num_stages":"1","num_warps":"4","num_ctas":"1"}},"force_earliest_schedule":false}
   ROOT %loop_convert_fusion = bf16[10,2048]{1,0} fusion(%Arg_2.3.0, %gemm_fusion_dot.42.0, %input_reduce_fusion), kind=kLoop, calls=%fused_convert, metadata={op_name="jit(prequant)/jit(main)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=26}
 }
-
