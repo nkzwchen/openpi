@@ -1,0 +1,114 @@
+HloModule jit_quant_dot, is_scheduled=true, entry_computation_layout={(bf16[256,2048]{1,0}, bf16[2048,2048]{1,0})->bf16[256,2048]{1,0}}, allow_spmd_sharding_propagation_to_parameters={true,true}, allow_spmd_sharding_propagation_to_output={true}, frontend_attributes={fingerprint_before_lhs="a65518058c31ff93363b6c4eaaf4e16f"}
+
+%region_0.16 (Arg_0.17: f32[], Arg_1.18: f32[]) -> f32[] {
+  %Arg_1.18 = f32[] parameter(1), metadata={op_name="jit(quant_dot)/jit(main)/reduce_max"}
+  %Arg_0.17 = f32[] parameter(0), metadata={op_name="jit(quant_dot)/jit(main)/reduce_max"}
+  ROOT %maximum.10 = f32[] maximum(%Arg_0.17, %Arg_1.18), metadata={op_name="jit(quant_dot)/jit(main)/reduce_max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=30}
+}
+
+%fused_reduce.1 (param_0.52: bf16[256,2048]) -> f32[256] {
+  %param_0.52 = bf16[256,2048]{1,0} parameter(0)
+  %convert.18.4 = f32[256,2048]{1,0} convert(%param_0.52), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=32}
+  %abs.5.3 = f32[256,2048]{1,0} abs(%convert.18.4), metadata={op_name="jit(quant_dot)/jit(main)/abs" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=30}
+  %constant_13_2 = f32[] constant(-inf)
+  ROOT %reduce.20.1 = f32[256]{0} reduce(%abs.5.3, %constant_13_2), dimensions={1}, to_apply=%region_0.16, metadata={op_name="jit(quant_dot)/jit(main)/reduce_max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=30}
+}
+
+%fused_reduce (param_0.51: bf16[2048,2048]) -> f32[2048] {
+  %param_0.51 = bf16[2048,2048]{1,0} parameter(0)
+  %convert.20.10 = f32[2048,2048]{1,0} convert(%param_0.51), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=33}
+  %abs.6.3 = f32[2048,2048]{1,0} abs(%convert.20.10), metadata={op_name="jit(quant_dot)/jit(main)/abs" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=31}
+  %constant_13_1 = f32[] constant(-inf)
+  ROOT %reduce.30.1 = f32[2048]{0} reduce(%abs.6.3, %constant_13_1), dimensions={0}, to_apply=%region_0.16, metadata={op_name="jit(quant_dot)/jit(main)/reduce_max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=31}
+}
+
+%fused_maximum (param_0.50: f32[2048]) -> f32[2048] {
+  %param_0.50 = f32[2048]{0} parameter(0)
+  %constant_26 = f32[] constant(0.00787401572)
+  %broadcast.56.1 = f32[2048]{0} broadcast(%constant_26), dimensions={}
+  %multiply.14.1 = f32[2048]{0} multiply(%param_0.50, %broadcast.56.1), metadata={op_name="jit(quant_dot)/jit(main)/div" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=31}
+  %constant_3_1 = f32[] constant(1e-08)
+  %broadcast.57.1 = f32[2048]{0} broadcast(%constant_3_1), dimensions={}
+  ROOT %maximum.12.1 = f32[2048]{0} maximum(%multiply.14.1, %broadcast.57.1), metadata={op_name="jit(quant_dot)/jit(main)/max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=31}
+}
+
+%fused_convert (param_0.53: bf16[256,2048], param_1.57: f32[256]) -> s8[256,2048] {
+  %constant_4_2 = f32[] constant(-127), metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %broadcast.48.5 = f32[256,2048]{1,0} broadcast(%constant_4_2), dimensions={}, metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/max" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %param_0.53 = bf16[256,2048]{1,0} parameter(0)
+  %convert.18.10 = f32[256,2048]{1,0} convert(%param_0.53), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=32}
+  %param_1.57 = f32[256]{0} parameter(1)
+  %constant_28 = f32[] constant(0.00787401572)
+  %broadcast.49.3 = f32[256]{0} broadcast(%constant_28), dimensions={}
+  %multiply.13.3 = f32[256]{0} multiply(%param_1.57, %broadcast.49.3), metadata={op_name="jit(quant_dot)/jit(main)/div" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=30}
+  %constant_3_3 = f32[] constant(1e-08)
+  %broadcast.50.3 = f32[256]{0} broadcast(%constant_3_3), dimensions={}
+  %maximum.11.3 = f32[256]{0} maximum(%multiply.13.3, %broadcast.50.3), metadata={op_name="jit(quant_dot)/jit(main)/max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=30}
+  %broadcast.52.8 = f32[256,2048]{1,0} broadcast(%maximum.11.3), dimensions={0}, metadata={op_name="jit(quant_dot)/jit(main)/div" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=32}
+  %divide.4.7 = f32[256,2048]{1,0} divide(%convert.18.10, %broadcast.52.8), metadata={op_name="jit(quant_dot)/jit(main)/div" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=32}
+  %constant_2_2 = f32[] constant(127), metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %broadcast.54.5 = f32[256,2048]{1,0} broadcast(%constant_2_2), dimensions={}, metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/min" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %clamp.6.5 = f32[256,2048]{1,0} clamp(%broadcast.48.5, %divide.4.7, %broadcast.54.5), metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/min" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %round-nearest-even.6.3 = f32[256,2048]{1,0} round-nearest-even(%clamp.6.5), metadata={op_name="jit(quant_dot)/jit(main)/jit(rint)/round" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  ROOT %convert.19.1 = s8[256,2048]{1,0} convert(%round-nearest-even.6.3), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=36}
+}
+
+%fused_transpose (param_0.13: bf16[2048,2048], param_1.55: f32[2048]) -> s8[2048,2048] {
+  %constant_4_1 = f32[] constant(-127), metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %broadcast.55.1 = f32[2048,2048]{1,0} broadcast(%constant_4_1), dimensions={}, metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/max" source_file="/tmp/openpi-quant-audit-probe.py" source_line=19}
+  %param_0.13 = bf16[2048,2048]{1,0} parameter(0)
+  %convert.20.8 = f32[2048,2048]{1,0} convert(%param_0.13), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=33}
+  %transpose.2.7 = f32[2048,2048]{1,0} transpose(%convert.20.8), dimensions={1,0}, metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=33}
+  %param_1.55 = f32[2048]{0} parameter(1)
+  %broadcast.58.1 = f32[2048,2048]{1,0} broadcast(%param_1.55), dimensions={0}, metadata={op_name="jit(quant_dot)/jit(main)/div" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=33}
+  %divide.5.5 = f32[2048,2048]{1,0} divide(%transpose.2.7, %broadcast.58.1), metadata={op_name="jit(quant_dot)/jit(main)/div" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=33}
+  %constant_2_1 = f32[] constant(127), metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %broadcast.59.1 = f32[2048,2048]{1,0} broadcast(%constant_2_1), dimensions={}, metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/min" source_file="/tmp/openpi-quant-audit-probe.py" source_line=19}
+  %clamp.7.3 = f32[2048,2048]{1,0} clamp(%broadcast.55.1, %divide.5.5, %broadcast.59.1), metadata={op_name="jit(quant_dot)/jit(main)/jit(clip)/min" source_file="/tmp/openpi-quant-audit-probe.py" source_line=19}
+  %round-nearest-even.7.1 = f32[2048,2048]{1,0} round-nearest-even(%clamp.7.3), metadata={op_name="jit(quant_dot)/jit(main)/jit(rint)/round" source_file="/tmp/openpi-quant-audit-probe.py" source_line=19}
+  ROOT %convert.21.1 = s8[2048,2048]{1,0} convert(%round-nearest-even.7.1), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=36}
+}
+
+%gemm_fusion_dot.76_computation (parameter_0: s8[256,2048], parameter_1: s8[2048,2048]) -> f32[256,2048] {
+  %parameter_0 = s8[256,2048]{1,0} parameter(0)
+  %parameter_1 = s8[2048,2048]{1,0} parameter(1)
+  %bitcast.70 = s8[2048,2048]{0,1} bitcast(%parameter_1), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=36}
+  %dot.1 = s32[256,2048]{1,0} dot(%parameter_0, %bitcast.70), lhs_contracting_dims={1}, rhs_contracting_dims={0}, metadata={op_name="jit(quant_dot)/jit(main)/MK,KN->MN/dot_general" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=37}
+  ROOT %convert.11 = f32[256,2048]{1,0} convert(%dot.1), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=39}
+}
+
+%fused_convert.1 (param_0.43: f32[256,2048], param_1.44: f32[2048], param_2.43: f32[256]) -> bf16[256,2048] {
+  %param_0.43 = f32[256,2048]{1,0} parameter(0)
+  %param_2.43 = f32[256]{0} parameter(2)
+  %constant_27 = f32[] constant(0.00787401572)
+  %broadcast.49.5 = f32[256]{0} broadcast(%constant_27), dimensions={}
+  %multiply.13.5 = f32[256]{0} multiply(%param_2.43, %broadcast.49.5), metadata={op_name="jit(quant_dot)/jit(main)/div" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=30}
+  %constant_3_2 = f32[] constant(1e-08)
+  %broadcast.50.5 = f32[256]{0} broadcast(%constant_3_2), dimensions={}
+  %maximum.11.5 = f32[256]{0} maximum(%multiply.13.5, %broadcast.50.5), metadata={op_name="jit(quant_dot)/jit(main)/max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=30}
+  %broadcast.52.12 = f32[256,2048]{1,0} broadcast(%maximum.11.5), dimensions={0}, metadata={op_name="jit(quant_dot)/jit(main)/div" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=32}
+  %param_1.44 = f32[2048]{0} parameter(1)
+  %broadcast.61.5 = f32[256,2048]{1,0} broadcast(%param_1.44), dimensions={1}, metadata={op_name="jit(quant_dot)/jit(main)/MK,KN->MN/dot_general" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=38}
+  %multiply.15.5 = f32[256,2048]{1,0} multiply(%broadcast.52.12, %broadcast.61.5), metadata={op_name="jit(quant_dot)/jit(main)/MK,KN->MN/dot_general" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=38}
+  %multiply.16.3 = f32[256,2048]{1,0} multiply(%param_0.43, %multiply.15.5), metadata={op_name="jit(quant_dot)/jit(main)/mul" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=39}
+  ROOT %convert.22.1 = bf16[256,2048]{1,0} convert(%multiply.16.3), metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=39}
+}
+
+%command_buffer (p: bf16[256,2048], p.1: bf16[2048,2048]) -> bf16[256,2048] {
+  %p = bf16[256,2048]{1,0} parameter(0)
+  %p.1 = bf16[2048,2048]{1,0} parameter(1)
+  %input_reduce_fusion.1 = f32[256]{0} fusion(%p), kind=kInput, calls=%fused_reduce.1, metadata={op_name="jit(quant_dot)/jit(main)/reduce_max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=30}
+  %input_reduce_fusion = f32[2048]{0} fusion(%p.1), kind=kInput, calls=%fused_reduce, metadata={op_name="jit(quant_dot)/jit(main)/reduce_max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=31}
+  %loop_maximum_fusion = f32[2048]{0} fusion(%input_reduce_fusion), kind=kLoop, calls=%fused_maximum, metadata={op_name="jit(quant_dot)/jit(main)/max" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=31}
+  %loop_convert_fusion = s8[256,2048]{1,0} fusion(%p, %input_reduce_fusion.1), kind=kLoop, calls=%fused_convert, metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=36}
+  %input_transpose_fusion = s8[2048,2048]{1,0} fusion(%p.1, %loop_maximum_fusion), kind=kInput, calls=%fused_transpose, metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=36}
+  %gemm_fusion_dot.76.0 = f32[256,2048]{1,0} fusion(%loop_convert_fusion, %input_transpose_fusion), kind=kCustom, calls=%gemm_fusion_dot.76_computation, metadata={op_name="jit(quant_dot)/jit(main)/MK,KN->MN/dot_general" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=37}, backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"fusion_backend_config":{"kind":"__triton_gemm","triton_gemm_config":{"block_m":"64","block_n":"128","block_k":"64","split_k":"1","num_stages":"4","num_warps":"4","num_ctas":"1"}},"force_earliest_schedule":false}
+  ROOT %loop_convert_fusion.1 = bf16[256,2048]{1,0} fusion(%gemm_fusion_dot.76.0, %loop_maximum_fusion, %input_reduce_fusion.1), kind=kLoop, calls=%fused_convert.1, metadata={op_name="jit(quant_dot)/jit(main)/convert_element_type" source_file="<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py" source_line=39}
+}
+
+ENTRY %main.81 (Arg_0.1.0: bf16[256,2048], Arg_1.2.0: bf16[2048,2048]) -> bf16[256,2048] {
+  %Arg_1.2.0 = bf16[2048,2048]{1,0} parameter(1), metadata={op_name="w"}
+  %Arg_0.1.0 = bf16[256,2048]{1,0} parameter(0), metadata={op_name="x"}
+  ROOT %call = bf16[256,2048]{1,0} call(%Arg_0.1.0, %Arg_1.2.0), to_apply=%command_buffer
+}
+

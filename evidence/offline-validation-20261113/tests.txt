@@ -1,0 +1,31 @@
+test_adjacent_reviews_do_not_merge (test_offline.BoundaryTests.test_adjacent_reviews_do_not_merge) ... ok
+test_export_split_video_and_no_overwrite (test_offline.BoundaryTests.test_export_split_video_and_no_overwrite) ... ok
+test_ignored_episode_and_wrong_units (test_offline.BoundaryTests.test_ignored_episode_and_wrong_units) ... ok
+test_limited_and_nonfinite_rejected (test_offline.BoundaryTests.test_limited_and_nonfinite_rejected) ... ok
+test_never_compress_across_policy (test_offline.BoundaryTests.test_never_compress_across_policy) ... ok
+test_pause_gap_and_exclusion (test_offline.BoundaryTests.test_pause_gap_and_exclusion) ... ok
+test_short_interval_reported (test_offline.BoundaryTests.test_short_interval_reported) ... ok
+test_time_jump_and_terminal (test_offline.BoundaryTests.test_time_jump_and_terminal) ... ok
+test_unreviewed_rejected (test_offline.BoundaryTests.test_unreviewed_rejected) ... ok
+test_absolute_all_six_joints (test_offline.ControlTests.test_absolute_all_six_joints) ... ok
+test_chunk_consumed_once (test_offline.ControlTests.test_chunk_consumed_once) ... ok
+test_input_between_observation_and_send_wins (test_offline.ControlTests.test_input_between_observation_and_send_wins) ... ok
+test_network_failure_stops_recording (test_offline.ControlTests.test_network_failure_stops_recording) ... ok
+test_nonfinite_and_bad_gripper (test_offline.ControlTests.test_nonfinite_and_bad_gripper) ... ok
+test_slow_inference_takeover_invalidates_result (test_offline.ControlTests.test_slow_inference_takeover_invalidates_result) ... ok
+test_timeout_no_policy_commands (test_offline.ControlTests.test_timeout_no_policy_commands) ... ok
+test_transmit_letterbox_preserves_full_view_and_original_recording (test_offline.ControlTests.test_transmit_letterbox_preserves_full_view_and_original_recording) ... ok
+test_gui_rejects_previous_phase_key_and_close_is_immediate (test_protocol_and_recorder.CopiedHelpersTests.test_gui_rejects_previous_phase_key_and_close_is_immediate) ... ok
+test_limit_ends_record_without_new_command (test_protocol_and_recorder.CopiedHelpersTests.test_limit_ends_record_without_new_command) ... ok
+test_stale_chunks_are_not_executed (test_protocol_and_recorder.CopiedHelpersTests.test_stale_chunks_are_not_executed) ... ok
+test_synthetic_endpoint_cannot_arm_policy (test_protocol_and_recorder.CopiedHelpersTests.test_synthetic_endpoint_cannot_arm_policy) ... ok
+test_takeover_preference_is_separate (test_protocol_and_recorder.CopiedHelpersTests.test_takeover_preference_is_separate) ... ok
+test_writer_owns_snapshot_and_preserves_original_indices (test_protocol_and_recorder.CopiedHelpersTests.test_writer_owns_snapshot_and_preserves_original_indices) ... ok
+test_freeze_vision_language_but_not_action_expert (test_protocol_and_recorder.FrozenVLMFilterTests.test_freeze_vision_language_but_not_action_expert) ... ok
+test_wire_encoding_and_receive_deadline (test_protocol_and_recorder.LoopbackTests.test_wire_encoding_and_receive_deadline) ... skipped 'websockets not installed in this interpreter'
+test_restore_lora_binding_and_warm_before_listening (test_protocol_and_recorder.ServingConfigTests.test_restore_lora_binding_and_warm_before_listening) ... skipped 'requires the complete OpenPI model environment (offline dependencies are insufficient)'
+
+----------------------------------------------------------------------
+Ran 26 tests in 3.804s
+
+OK (skipped=2)

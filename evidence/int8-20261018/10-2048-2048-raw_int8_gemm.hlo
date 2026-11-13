@@ -1,0 +1,32 @@
+HloModule jit__lambda_, is_scheduled=true, entry_computation_layout={(s8[10,2048]{1,0}, s8[2048,2048]{1,0})->s32[10,2048]{1,0}}, allow_spmd_sharding_propagation_to_parameters={true,true}, allow_spmd_sharding_propagation_to_output={true}, frontend_attributes={fingerprint_before_lhs="37875d41cca485dcd7f0370210641090"}
+
+%gemm_fusion_dot.3_computation (parameter_0: s8[10,2048], parameter_1: s8[2048,2048]) -> s32[16,10,2048] {
+  %parameter_1 = s8[2048,2048]{1,0} parameter(1)
+  %transpose.1 = s8[2048,2048]{1,0} transpose(%parameter_1), dimensions={1,0}, metadata={op_name="b"}
+  %bitcast.5 = s8[2048,2048]{0,1} bitcast(%transpose.1), metadata={op_name="b"}
+  %bitcast.11 = s8[16,128,2048]{1,0,2} bitcast(%bitcast.5)
+  %parameter_0 = s8[10,2048]{1,0} parameter(0)
+  %bitcast.12 = s8[10,16,128]{2,1,0} bitcast(%parameter_0)
+  %dot.2 = s32[16,2048,10]{1,2,0} dot(%bitcast.11, %bitcast.12), lhs_batch_dims={0}, lhs_contracting_dims={1}, rhs_batch_dims={1}, rhs_contracting_dims={2}, metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=31}
+  ROOT %bitcast.6.clone = s32[16,10,2048]{2,1,0} bitcast(%dot.2), metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=31}
+}
+
+%gemm_fusion_dot.3.reduce_sub_computation (lhs: s32[], rhs: s32[]) -> s32[] {
+  %rhs = s32[] parameter(1)
+  %lhs = s32[] parameter(0)
+  ROOT %add.1 = s32[] add(%lhs, %rhs)
+}
+
+%fused_reduce (param_0: s32[16,10,2048]) -> s32[10,2048] {
+  %param_0 = s32[16,10,2048]{2,1,0} parameter(0)
+  %constant_2 = s32[] constant(0)
+  ROOT %reduce.2 = s32[10,2048]{1,0} reduce(%param_0, %constant_2), dimensions={0}, to_apply=%gemm_fusion_dot.3.reduce_sub_computation, metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=31}
+}
+
+ENTRY %main.4 (Arg_0.1.0: s8[10,2048], Arg_1.2.0: s8[2048,2048]) -> s32[10,2048] {
+  %Arg_1.2.0 = s8[2048,2048]{1,0} parameter(1), metadata={op_name="b"}
+  %Arg_0.1.0 = s8[10,2048]{1,0} parameter(0), metadata={op_name="a"}
+  %gemm_fusion_dot.3.0 = s32[16,10,2048]{2,1,0} fusion(%Arg_0.1.0, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.3_computation, metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=31}, backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"fusion_backend_config":{"kind":"__triton_gemm","triton_gemm_config":{"block_m":"64","block_n":"16","block_k":"32","split_k":"16","num_stages":"1","num_warps":"4","num_ctas":"1"}},"force_earliest_schedule":false}
+  ROOT %loop_reduce_fusion = s32[10,2048]{1,0} fusion(%gemm_fusion_dot.3.0), kind=kLoop, calls=%fused_reduce, metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=31}
+}
+

@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-18",
+  "openpi_parent_commit": "288f6bd",
+  "flashrt_commit": "81904ca450b168c9728f45709f4bc17c6d1b91ea",
+  "weights": "pi05_base_ranged official base params",
+  "fixture_sha256": "8f301e7eb93a821973d980f6e3a7efc1727b9ec5aba202f79ade1fc0a3bb13e0",
+  "scripts_sha256": {
+    "fp8_runtime.py": "b528c83688763d681c6314858dcf7654009d09e05a59fa16702a189b87750ceb",
+    "prepare_real_fixture.py": "f3aa2a9bf6c95974ab036e50eadf146a449d07dc8bb4e4b64d9bd290792cdc67"
+  },
+  "calibration": "64 real image pairs with their measured normalized states; fixed pipeline identity checked for every sample",
+  "evaluation": "64 observations from disjoint episodes; identical noise and state across backends",
+  "normalization": "Surrogate state q01/q99 from calibration-side episodes only; no trained checkpoint binding claimed",
+  "robot_started": false,
+  "source_data_modified": false,
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "pillow": "12.2.0",
+  "pyarrow": "23.0.1",
+  "openpi_commit": "1c3a50b16e3beb505fb27db18bf0bb948059687c"
+}

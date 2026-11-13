@@ -1,0 +1,227 @@
+{
+  "jax": "0.5.3",
+  "device": "[CudaDevice(id=0)]",
+  "results": [
+    {
+      "shape": [
+        10,
+        2048,
+        2048
+      ],
+      "mode": "bf16",
+      "median_ms": 0.04544109106063843,
+      "backend_calls": [
+        "ROOT %gemm_fusion_dot.3.0 = bf16[10,2048]{1,0} fusion(%Arg_0.1.0, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.3_computation, metadata={op_name=\"jit(<lambda>)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=28}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"16\",\"block_k\":\"128\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "10-2048-2048-bf16.hlo"
+    },
+    {
+      "shape": [
+        10,
+        2048,
+        2048
+      ],
+      "mode": "dynamic_int8",
+      "median_ms": 0.06398838013410568,
+      "backend_calls": [
+        "%gemm_fusion_dot.76.0 = f32[10,2048]{1,0} fusion(%loop_convert_fusion.1, %input_transpose_fusion), kind=kCustom, calls=%gemm_fusion_dot.76_computation, metadata={op_name=\"jit(quant_dot)/jit(main)/MK,KN->MN/dot_general\" source_file=\"<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py\" source_line=37}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"16\",\"block_k\":\"128\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "10-2048-2048-dynamic_int8.hlo"
+    },
+    {
+      "shape": [
+        10,
+        2048,
+        2048
+      ],
+      "mode": "prequant_weight_int8",
+      "median_ms": 0.050844624638557434,
+      "backend_calls": [
+        "%gemm_fusion_dot.42.0 = f32[16,10,2048]{2,1,0} fusion(%loop_convert_fusion.1, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.42_computation, metadata={op_name=\"jit(prequant)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=25}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"16\",\"block_k\":\"32\",\"split_k\":\"16\",\"num_stages\":\"1\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "10-2048-2048-prequant_weight_int8.hlo"
+    },
+    {
+      "shape": [
+        10,
+        2048,
+        2048
+      ],
+      "mode": "raw_int8_gemm",
+      "median_ms": 0.033940188586711884,
+      "backend_calls": [
+        "%gemm_fusion_dot.3.0 = s32[16,10,2048]{2,1,0} fusion(%Arg_0.1.0, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.3_computation, metadata={op_name=\"jit(<lambda>)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=31}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"16\",\"block_k\":\"32\",\"split_k\":\"16\",\"num_stages\":\"1\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "10-2048-2048-raw_int8_gemm.hlo"
+    },
+    {
+      "shape": [
+        256,
+        2048,
+        2048
+      ],
+      "mode": "bf16",
+      "median_ms": 0.04446879029273987,
+      "backend_calls": [
+        "%custom-call.1.0 = (bf16[256,2048]{1,0}, s8[4194304]{0}) custom-call(%Arg_0.1.0, %Arg_1.2.0), custom_call_target=\"__cublas$gemm\", metadata={op_name=\"jit(<lambda>)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=28}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"gemm_backend_config\":{\"alpha_real\":1,\"alpha_imag\":0,\"beta\":0,\"dot_dimension_numbers\":{\"lhs_contracting_dimensions\":[\"1\"],\"rhs_contracting_dimensions\":[\"0\"],\"lhs_batch_dimensions\":[],\"rhs_batch_dimensions\":[]},\"precision_config\":{\"operand_precision\":[\"DEFAULT\",\"DEFAULT\"],\"algorithm\":\"ALG_UNSET\"},\"epilogue\":\"DEFAULT\",\"damax_output\":false,\"lhs_stride\":\"524288\",\"rhs_stride\":\"4194304\",\"grad_x\":false,\"grad_y\":false},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "256-2048-2048-bf16.hlo"
+    },
+    {
+      "shape": [
+        256,
+        2048,
+        2048
+      ],
+      "mode": "dynamic_int8",
+      "median_ms": 0.07365364581346512,
+      "backend_calls": [
+        "%gemm_fusion_dot.76.0 = f32[256,2048]{1,0} fusion(%loop_convert_fusion, %input_transpose_fusion), kind=kCustom, calls=%gemm_fusion_dot.76_computation, metadata={op_name=\"jit(quant_dot)/jit(main)/MK,KN->MN/dot_general\" source_file=\"<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py\" source_line=37}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"128\",\"block_k\":\"64\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "256-2048-2048-dynamic_int8.hlo"
+    },
+    {
+      "shape": [
+        256,
+        2048,
+        2048
+      ],
+      "mode": "prequant_weight_int8",
+      "median_ms": 0.0681467354297638,
+      "backend_calls": [
+        "%gemm_fusion_dot.42.0 = f32[256,2048]{1,0} fusion(%loop_convert_fusion.1, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.42_computation, metadata={op_name=\"jit(prequant)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=25}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"128\",\"block_n\":\"32\",\"block_k\":\"64\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "256-2048-2048-prequant_weight_int8.hlo"
+    },
+    {
+      "shape": [
+        256,
+        2048,
+        2048
+      ],
+      "mode": "raw_int8_gemm",
+      "median_ms": 0.04626810550689697,
+      "backend_calls": [
+        "%custom-call.1.0 = (s32[256,2048]{1,0}, s8[4194304]{0}) custom-call(%Arg_0.1.0, %bitcast.17.0), custom_call_target=\"__cublas$gemm\", metadata={op_name=\"jit(<lambda>)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=31}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"gemm_backend_config\":{\"alpha_real\":1,\"alpha_imag\":0,\"beta\":0,\"dot_dimension_numbers\":{\"lhs_contracting_dimensions\":[\"1\"],\"rhs_contracting_dimensions\":[\"0\"],\"lhs_batch_dimensions\":[],\"rhs_batch_dimensions\":[]},\"precision_config\":{\"operand_precision\":[\"DEFAULT\",\"DEFAULT\"],\"algorithm\":\"ALG_UNSET\"},\"epilogue\":\"DEFAULT\",\"damax_output\":false,\"lhs_stride\":\"524288\",\"rhs_stride\":\"4194304\",\"grad_x\":false,\"grad_y\":false},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "256-2048-2048-raw_int8_gemm.hlo"
+    },
+    {
+      "shape": [
+        968,
+        2048,
+        2048
+      ],
+      "mode": "bf16",
+      "median_ms": 0.10204780846834183,
+      "backend_calls": [
+        "ROOT %gemm_fusion_dot.3.0 = bf16[968,2048]{1,0} fusion(%Arg_0.1.0, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.3_computation, metadata={op_name=\"jit(<lambda>)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=28}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"128\",\"block_n\":\"128\",\"block_k\":\"32\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "968-2048-2048-bf16.hlo"
+    },
+    {
+      "shape": [
+        968,
+        2048,
+        2048
+      ],
+      "mode": "dynamic_int8",
+      "median_ms": 0.11558365076780319,
+      "backend_calls": [
+        "%gemm_fusion_dot.76.0 = f32[968,2048]{1,0} fusion(%loop_convert_fusion, %input_transpose_fusion), kind=kCustom, calls=%gemm_fusion_dot.76_computation, metadata={op_name=\"jit(quant_dot)/jit(main)/MK,KN->MN/dot_general\" source_file=\"<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py\" source_line=37}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"128\",\"block_k\":\"64\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "968-2048-2048-dynamic_int8.hlo"
+    },
+    {
+      "shape": [
+        968,
+        2048,
+        2048
+      ],
+      "mode": "prequant_weight_int8",
+      "median_ms": 0.10729674249887466,
+      "backend_calls": [
+        "%gemm_fusion_dot.42.0 = f32[968,2048]{1,0} fusion(%loop_convert_fusion, %p.1), kind=kCustom, calls=%gemm_fusion_dot.42_computation, metadata={op_name=\"jit(prequant)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=25}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"128\",\"block_n\":\"64\",\"block_k\":\"64\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "968-2048-2048-prequant_weight_int8.hlo"
+    },
+    {
+      "shape": [
+        968,
+        2048,
+        2048
+      ],
+      "mode": "raw_int8_gemm",
+      "median_ms": 0.0974368304014206,
+      "backend_calls": [
+        "ROOT %gemm_fusion_dot.3.0 = s32[968,2048]{1,0} fusion(%Arg_0.1.0, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.3_computation, metadata={op_name=\"jit(<lambda>)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=31}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"128\",\"block_k\":\"64\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "968-2048-2048-raw_int8_gemm.hlo"
+    },
+    {
+      "shape": [
+        968,
+        2048,
+        16384
+      ],
+      "mode": "bf16",
+      "median_ms": 0.360867939889431,
+      "backend_calls": [
+        "%custom-call.1.0 = (bf16[968,16384]{1,0}, s8[4194304]{0}) custom-call(%Arg_0.1.0, %Arg_1.2.0), custom_call_target=\"__cublas$gemm\", metadata={op_name=\"jit(<lambda>)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=28}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"gemm_backend_config\":{\"alpha_real\":1,\"alpha_imag\":0,\"beta\":0,\"dot_dimension_numbers\":{\"lhs_contracting_dimensions\":[\"1\"],\"rhs_contracting_dimensions\":[\"0\"],\"lhs_batch_dimensions\":[],\"rhs_batch_dimensions\":[]},\"precision_config\":{\"operand_precision\":[\"DEFAULT\",\"DEFAULT\"],\"algorithm\":\"ALG_UNSET\"},\"epilogue\":\"DEFAULT\",\"damax_output\":false,\"lhs_stride\":\"1982464\",\"rhs_stride\":\"33554432\",\"grad_x\":false,\"grad_y\":false},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "968-2048-16384-bf16.hlo"
+    },
+    {
+      "shape": [
+        968,
+        2048,
+        16384
+      ],
+      "mode": "dynamic_int8",
+      "median_ms": 0.5502142012119293,
+      "backend_calls": [
+        "%gemm_fusion_dot.76.0 = f32[968,16384]{1,0} fusion(%loop_convert_fusion.1, %input_transpose_fusion), kind=kCustom, calls=%gemm_fusion_dot.76_computation, metadata={op_name=\"jit(quant_dot)/jit(main)/MK,KN->MN/dot_general\" source_file=\"<CLOUD_WORKSPACE>/openpi-dagger/scripts/benchmarks/jax_int8.py\" source_line=37}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"128\",\"block_n\":\"128\",\"block_k\":\"64\",\"split_k\":\"1\",\"num_stages\":\"1\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "968-2048-16384-dynamic_int8.hlo"
+    },
+    {
+      "shape": [
+        968,
+        2048,
+        16384
+      ],
+      "mode": "prequant_weight_int8",
+      "median_ms": 0.39801839739084244,
+      "backend_calls": [
+        "%gemm_fusion_dot.42.0 = f32[968,16384]{1,0} fusion(%loop_convert_fusion.1, %p.1), kind=kCustom, calls=%gemm_fusion_dot.42_computation, metadata={op_name=\"jit(prequant)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=25}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"128\",\"block_k\":\"64\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "968-2048-16384-prequant_weight_int8.hlo"
+    },
+    {
+      "shape": [
+        968,
+        2048,
+        16384
+      ],
+      "mode": "raw_int8_gemm",
+      "median_ms": 0.32915081828832626,
+      "backend_calls": [
+        "ROOT %gemm_fusion_dot.3.0 = s32[968,16384]{1,0} fusion(%Arg_0.1.0, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.3_computation, metadata={op_name=\"jit(<lambda>)/jit(main)/dot_general\" source_file=\"/tmp/openpi-quant-audit-probe.py\" source_line=31}, backend_config={\"operation_queue_id\":\"0\",\"wait_on_operation_queues\":[],\"fusion_backend_config\":{\"kind\":\"__triton_gemm\",\"triton_gemm_config\":{\"block_m\":\"64\",\"block_n\":\"128\",\"block_k\":\"64\",\"split_k\":\"1\",\"num_stages\":\"4\",\"num_warps\":\"4\",\"num_ctas\":\"1\"}},\"force_earliest_schedule\":false}"
+      ],
+      "hlo_file": "968-2048-16384-raw_int8_gemm.hlo"
+    }
+  ],
+  "protocol": {
+    "date": "2026-10-18",
+    "gpu": "NVIDIA L40S",
+    "warmup_per_case": 5,
+    "timed_calls_per_case": 60,
+    "compile_excluded": true,
+    "synchronized_each_call": true,
+    "input_weights_bf16": true,
+    "scope": "standalone illustrative matrix shapes, not a new full-model benchmark",
+    "raw_int8_gemm": "prequantized inputs; int32 output; excludes quantization, scaling, and float output conversion",
+    "prequant_weight_int8": "weight quantization excluded; activation quantization and output scaling included",
+    "timing_limit": "host dispatch/synchronization included; isolated cached matrices; no full-model speedup inferred"
+  }
+}

@@ -1,0 +1,455 @@
+{
+  "source_dataset": "<DATASET_ROOT>/dataset_combined_all",
+  "source_fps": 20,
+  "sampling_grid_hz": 10,
+  "camera_shape_source": [
+    240,
+    424,
+    3
+  ],
+  "model_image_shape": [
+    224,
+    224,
+    3
+  ],
+  "calibration_observations": 64,
+  "evaluation_observations": 64,
+  "disjoint_episodes": true,
+  "calibration_uses_real_state": true,
+  "prompt": "pick blocks from table",
+  "horizon": 10,
+  "gpu": "NVIDIA L40S",
+  "warmup": 100,
+  "rounds": 3,
+  "iterations_per_round": 200,
+  "rows": [
+    {
+      "backend": "flashrt-bf16",
+      "steps": 5,
+      "median_ms": 27.20756269991398,
+      "p99_ms": 28.498992882668972,
+      "max_ms": 28.69231253862381,
+      "over_100ms": 0,
+      "timing_samples": 600,
+      "round_results": [
+        {
+          "round": 0,
+          "median_ms": 27.07070391625166,
+          "p99_ms": 28.409180641174316,
+          "max_ms": 28.477830812335014
+        },
+        {
+          "round": 1,
+          "median_ms": 27.21491362899542,
+          "p99_ms": 28.410476054996252,
+          "max_ms": 28.69231253862381
+        },
+        {
+          "round": 2,
+          "median_ms": 27.349253185093403,
+          "p99_ms": 28.5748247243464,
+          "max_ms": 28.594760224223137
+        }
+      ],
+      "repeat_max_abs_error": 0.0,
+      "speedup_vs_jax": 1.7820050922338402,
+      "speedup_vs_native_bf16": 1.0
+    },
+    {
+      "backend": "flashrt-bf16",
+      "steps": 10,
+      "median_ms": 34.112670458853245,
+      "p99_ms": 35.256896149367094,
+      "max_ms": 41.20651260018349,
+      "over_100ms": 0,
+      "timing_samples": 600,
+      "round_results": [
+        {
+          "round": 0,
+          "median_ms": 34.01475585997105,
+          "p99_ms": 34.98935431241989,
+          "max_ms": 35.079943016171455
+        },
+        {
+          "round": 1,
+          "median_ms": 34.08894781023264,
+          "p99_ms": 35.11038279160857,
+          "max_ms": 35.43618880212307
+        },
+        {
+          "round": 2,
+          "median_ms": 34.21193454414606,
+          "p99_ms": 35.31932683661578,
+          "max_ms": 41.20651260018349
+        }
+      ],
+      "repeat_max_abs_error": 0.0,
+      "speedup_vs_jax": 1.7828412320878113,
+      "speedup_vs_native_bf16": 1.0
+    },
+    {
+      "backend": "flashrt-fp8-vlm",
+      "steps": 5,
+      "median_ms": 21.065987646579742,
+      "p99_ms": 24.424726385623206,
+      "max_ms": 39.845675230026245,
+      "over_100ms": 0,
+      "timing_samples": 600,
+      "round_results": [
+        {
+          "round": 0,
+          "median_ms": 20.968868397176266,
+          "p99_ms": 28.09531705453984,
+          "max_ms": 39.845675230026245
+        },
+        {
+          "round": 1,
+          "median_ms": 21.041907370090485,
+          "p99_ms": 23.542634509503824,
+          "max_ms": 33.390212804079056
+        },
+        {
+          "round": 2,
+          "median_ms": 21.151320077478886,
+          "p99_ms": 22.86797128617762,
+          "max_ms": 38.929592818021774
+        }
+      ],
+      "repeat_max_abs_error": 0.0,
+      "speedup_vs_jax": 2.3015306043051833,
+      "speedup_vs_native_bf16": 1.2915398582952924
+    },
+    {
+      "backend": "flashrt-fp8-vlm",
+      "steps": 10,
+      "median_ms": 28.459807857871056,
+      "p99_ms": 28.978411089628935,
+      "max_ms": 49.58939179778099,
+      "over_100ms": 0,
+      "timing_samples": 600,
+      "round_results": [
+        {
+          "round": 0,
+          "median_ms": 28.451306745409966,
+          "p99_ms": 28.88471769168973,
+          "max_ms": 29.060283675789833
+        },
+        {
+          "round": 1,
+          "median_ms": 28.437898494303226,
+          "p99_ms": 29.108806047588583,
+          "max_ms": 29.63431365787983
+        },
+        {
+          "round": 2,
+          "median_ms": 28.480092994868755,
+          "p99_ms": 28.982552178204056,
+          "max_ms": 49.58939179778099
+        }
+      ],
+      "repeat_max_abs_error": 0.0,
+      "speedup_vs_jax": 2.1369601556831057,
+      "speedup_vs_native_bf16": 1.19862616884881
+    },
+    {
+      "backend": "jax",
+      "steps": 5,
+      "median_ms": 48.4840152785182,
+      "p99_ms": 50.51661189645529,
+      "max_ms": 50.683075562119484,
+      "over_100ms": 0,
+      "timing_samples": 600,
+      "round_results": [
+        {
+          "round": 0,
+          "median_ms": 48.44679031521082,
+          "p99_ms": 50.49978520721197,
+          "max_ms": 50.556475296616554
+        },
+        {
+          "round": 1,
+          "median_ms": 48.552834428846836,
+          "p99_ms": 50.51894150674343,
+          "max_ms": 50.683075562119484
+        },
+        {
+          "round": 2,
+          "median_ms": 48.48289582878351,
+          "p99_ms": 50.50350904464722,
+          "max_ms": 50.56975036859512
+        }
+      ],
+      "repeat_max_abs_error": 0.0,
+      "speedup_vs_jax": 1.0,
+      "speedup_vs_native_bf16": 0.5611656242499541
+    },
+    {
+      "backend": "jax",
+      "steps": 10,
+      "median_ms": 60.8174754306674,
+      "p99_ms": 63.44891080632806,
+      "max_ms": 64.40133228898048,
+      "over_100ms": 0,
+      "timing_samples": 600,
+      "round_results": [
+        {
+          "round": 0,
+          "median_ms": 61.21080834418535,
+          "p99_ms": 63.89385055750608,
+          "max_ms": 64.40133228898048
+        },
+        {
+          "round": 1,
+          "median_ms": 60.30500307679176,
+          "p99_ms": 62.77086641639471,
+          "max_ms": 63.37912939488888
+        },
+        {
+          "round": 2,
+          "median_ms": 59.83052682131529,
+          "p99_ms": 62.053081560879946,
+          "max_ms": 63.181864097714424
+        }
+      ],
+      "repeat_max_abs_error": 0.0,
+      "speedup_vs_jax": 1.0,
+      "speedup_vs_native_bf16": 0.5609024415645478
+    }
+  ],
+  "errors": [
+    {
+      "backend": "flashrt-bf16",
+      "steps": 5,
+      "reference": "jax",
+      "rmse": 0.009526668287416726,
+      "max_abs_error": 0.045166015625,
+      "p99_abs_error": 0.029052734375,
+      "mean_sample_cosine": 0.9998381687876136,
+      "min_sample_cosine": 0.9981944897281556,
+      "rmse_by_joint": [
+        0.01120940640866181,
+        0.007006509132032336,
+        0.01201147960211883,
+        0.008772676343150333,
+        0.008358111679913635,
+        0.008871807391469517
+      ]
+    },
+    {
+      "backend": "flashrt-bf16",
+      "steps": 5,
+      "reference": "native_bf16",
+      "rmse": 0.0,
+      "max_abs_error": 0.0,
+      "p99_abs_error": 0.0,
+      "mean_sample_cosine": 1.0,
+      "min_sample_cosine": 0.9999999999999998,
+      "rmse_by_joint": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "backend": "flashrt-bf16",
+      "steps": 10,
+      "reference": "jax",
+      "rmse": 0.009173240392176964,
+      "max_abs_error": 0.0368804931640625,
+      "p99_abs_error": 0.029296875,
+      "mean_sample_cosine": 0.9998810497490731,
+      "min_sample_cosine": 0.9990368445105392,
+      "rmse_by_joint": [
+        0.011355288502254196,
+        0.007713878882805521,
+        0.010186512873098073,
+        0.008110980010443268,
+        0.009371595827395053,
+        0.007685289960198712
+      ]
+    },
+    {
+      "backend": "flashrt-bf16",
+      "steps": 10,
+      "reference": "native_bf16",
+      "rmse": 0.0,
+      "max_abs_error": 0.0,
+      "p99_abs_error": 0.0,
+      "mean_sample_cosine": 1.0,
+      "min_sample_cosine": 0.9999999999999998,
+      "rmse_by_joint": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "backend": "flashrt-fp8-vlm",
+      "steps": 5,
+      "reference": "jax",
+      "rmse": 0.044191586755738345,
+      "max_abs_error": 0.3369140625,
+      "p99_abs_error": 0.15939453125000025,
+      "mean_sample_cosine": 0.989742996444301,
+      "min_sample_cosine": 0.6186709532553376,
+      "rmse_by_joint": [
+        0.046371075081628896,
+        0.028216987547021254,
+        0.06292936724797278,
+        0.03313449878653388,
+        0.043813600069418576,
+        0.04234703326535254
+      ]
+    },
+    {
+      "backend": "flashrt-fp8-vlm",
+      "steps": 5,
+      "reference": "native_bf16",
+      "rmse": 0.043968350784029664,
+      "max_abs_error": 0.330078125,
+      "p99_abs_error": 0.1616455078125003,
+      "mean_sample_cosine": 0.9897793999514946,
+      "min_sample_cosine": 0.62381242506746,
+      "rmse_by_joint": [
+        0.04645068777194826,
+        0.02811159829857373,
+        0.062264138213562525,
+        0.03222046057413325,
+        0.0434353365751742,
+        0.04300880630907973
+      ]
+    },
+    {
+      "backend": "flashrt-fp8-vlm",
+      "steps": 10,
+      "reference": "jax",
+      "rmse": 0.058899743519724095,
+      "max_abs_error": 0.544921875,
+      "p99_abs_error": 0.23377441406250044,
+      "mean_sample_cosine": 0.9888099889355748,
+      "min_sample_cosine": 0.6608505112217907,
+      "rmse_by_joint": [
+        0.0843219025925135,
+        0.033333728146428314,
+        0.07741167953001539,
+        0.035998313298454564,
+        0.0585269418827282,
+        0.04335791066274553
+      ]
+    },
+    {
+      "backend": "flashrt-fp8-vlm",
+      "steps": 10,
+      "reference": "native_bf16",
+      "rmse": 0.05964136151322171,
+      "max_abs_error": 0.54052734375,
+      "p99_abs_error": 0.2211328125000005,
+      "mean_sample_cosine": 0.989062126221407,
+      "min_sample_cosine": 0.6723270605418826,
+      "rmse_by_joint": [
+        0.08452298118898365,
+        0.03321977220055383,
+        0.07797631686001877,
+        0.03627551380139003,
+        0.05969870895571998,
+        0.0462029183189353
+      ]
+    },
+    {
+      "backend": "jax",
+      "steps": 5,
+      "reference": "jax",
+      "rmse": 0.0,
+      "max_abs_error": 0.0,
+      "p99_abs_error": 0.0,
+      "mean_sample_cosine": 1.0,
+      "min_sample_cosine": 0.9999999999999998,
+      "rmse_by_joint": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "backend": "jax",
+      "steps": 5,
+      "reference": "native_bf16",
+      "rmse": 0.009526668287416726,
+      "max_abs_error": 0.045166015625,
+      "p99_abs_error": 0.029052734375,
+      "mean_sample_cosine": 0.9998381687876136,
+      "min_sample_cosine": 0.9981944897281556,
+      "rmse_by_joint": [
+        0.01120940640866181,
+        0.007006509132032336,
+        0.01201147960211883,
+        0.008772676343150333,
+        0.008358111679913635,
+        0.008871807391469517
+      ]
+    },
+    {
+      "backend": "jax",
+      "steps": 10,
+      "reference": "jax",
+      "rmse": 0.0,
+      "max_abs_error": 0.0,
+      "p99_abs_error": 0.0,
+      "mean_sample_cosine": 1.0,
+      "min_sample_cosine": 0.9999999999999998,
+      "rmse_by_joint": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "backend": "jax",
+      "steps": 10,
+      "reference": "native_bf16",
+      "rmse": 0.009173240392176964,
+      "max_abs_error": 0.0368804931640625,
+      "p99_abs_error": 0.029296875,
+      "mean_sample_cosine": 0.9998810497490731,
+      "min_sample_cosine": 0.9990368445105392,
+      "rmse_by_joint": [
+        0.011355288502254196,
+        0.007713878882805521,
+        0.010186512873098073,
+        0.008110980010443268,
+        0.009371595827395053,
+        0.007685289960198712
+      ]
+    }
+  ],
+  "calibration_warnings": {
+    "flashrt-fp8-vlm-s5.log": [
+      "WARNING:flash_rt.core.calibration:[pi05_rtx_N64] 4 scale(s) exceed 20.0 x median (0.053) \u2014 calibration set may contain outliers. Top offenders: encoder_ffn_down_w_16=35.571, encoder_ffn_down_w_15=5.857, encoder_ffn_down_w_14=1.232, encoder_ffn_down_w_13=1.161. FP8 will still run but dynamic-range headroom on these layers is compressed. Consider lowering percentile, sampling more diversely, or keeping these layers in FP16."
+    ],
+    "jax-s5.log": [],
+    "flashrt-bf16-s10.log": [],
+    "flashrt-fp8-vlm-s10.log": [
+      "WARNING:flash_rt.core.calibration:[pi05_rtx_N64] 4 scale(s) exceed 20.0 x median (0.053) \u2014 calibration set may contain outliers. Top offenders: encoder_ffn_down_w_16=35.571, encoder_ffn_down_w_15=5.857, encoder_ffn_down_w_14=1.232, encoder_ffn_down_w_13=1.161. FP8 will still run but dynamic-range headroom on these layers is compressed. Consider lowering percentile, sampling more diversely, or keeping these layers in FP16."
+    ],
+    "jax-s10.log": [],
+    "flashrt-bf16-s5.log": []
+  },
+  "limits": [
+    "pi05_base weights, not a task-finetuned SO101 policy",
+    "State normalization uses calibration-only surrogate quantiles, not a trained checkpoint asset",
+    "Numerical comparison only; no closed-loop success rate or real robot execution",
+    "Source data are read-only; no training migration or expert label assumptions"
+  ]
+}

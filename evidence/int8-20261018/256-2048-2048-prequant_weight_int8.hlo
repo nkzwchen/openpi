@@ -1,0 +1,74 @@
+HloModule jit_prequant, is_scheduled=true, entry_computation_layout={(bf16[256,2048]{1,0}, s8[2048,2048]{1,0}, f32[1,2048]{1,0})->bf16[256,2048]{1,0}}, allow_spmd_sharding_propagation_to_parameters={true,true,true}, allow_spmd_sharding_propagation_to_output={true}, frontend_attributes={fingerprint_before_lhs="1ed6e0198f07dbd5878d60647d105b6e"}
+
+%gemm_fusion_dot.42_computation (parameter_0: s8[256,2048], parameter_1: s8[2048,2048]) -> f32[256,2048] {
+  %parameter_0 = s8[256,2048]{1,0} parameter(0)
+  %parameter_1 = s8[2048,2048]{1,0} parameter(1)
+  %transpose.1 = s8[2048,2048]{1,0} transpose(%parameter_1), dimensions={1,0}, metadata={op_name="b"}
+  %bitcast.45 = s8[2048,2048]{0,1} bitcast(%transpose.1), metadata={op_name="b"}
+  %dot.0 = s32[256,2048]{1,0} dot(%parameter_0, %bitcast.45), lhs_contracting_dims={1}, rhs_contracting_dims={0}, metadata={op_name="jit(prequant)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=25}
+  ROOT %convert.6 = f32[256,2048]{1,0} convert(%dot.0), metadata={op_name="jit(prequant)/jit(main)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=26}
+}
+
+%region_0.13 (Arg_0.14: f32[], Arg_1.15: f32[]) -> f32[] {
+  %Arg_1.15 = f32[] parameter(1), metadata={op_name="jit(prequant)/jit(main)/reduce_max"}
+  %Arg_0.14 = f32[] parameter(0), metadata={op_name="jit(prequant)/jit(main)/reduce_max"}
+  ROOT %maximum.6 = f32[] maximum(%Arg_0.14, %Arg_1.15), metadata={op_name="jit(prequant)/jit(main)/reduce_max" source_file="/tmp/openpi-quant-audit-probe.py" source_line=23}
+}
+
+%fused_reduce (param_0.33: bf16[256,2048]) -> f32[256] {
+  %param_0.33 = bf16[256,2048]{1,0} parameter(0)
+  %convert.10.4 = f32[256,2048]{1,0} convert(%param_0.33), metadata={op_name="jit(prequant)/jit(main)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=24}
+  %abs.2.3 = f32[256,2048]{1,0} abs(%convert.10.4), metadata={op_name="jit(prequant)/jit(main)/abs" source_file="/tmp/openpi-quant-audit-probe.py" source_line=23}
+  %constant_10_1 = f32[] constant(-inf)
+  ROOT %reduce.17.1 = f32[256]{0} reduce(%abs.2.3, %constant_10_1), dimensions={1}, to_apply=%region_0.13, metadata={op_name="jit(prequant)/jit(main)/reduce_max" source_file="/tmp/openpi-quant-audit-probe.py" source_line=23}
+}
+
+%fused_convert (param_0.19: f32[1,2048], param_1.21: f32[256,2048], param_2.26: f32[256]) -> bf16[256,2048] {
+  %param_1.21 = f32[256,2048]{1,0} parameter(1)
+  %param_2.26 = f32[256]{0} parameter(2)
+  %constant_18 = f32[] constant(0.00787401572)
+  %broadcast.25.5 = f32[256]{0} broadcast(%constant_18), dimensions={}
+  %multiply.8.5 = f32[256]{0} multiply(%param_2.26, %broadcast.25.5), metadata={op_name="jit(prequant)/jit(main)/div" source_file="/tmp/openpi-quant-audit-probe.py" source_line=23}
+  %constant_4_1 = f32[] constant(1e-08)
+  %broadcast.26.5 = f32[256]{0} broadcast(%constant_4_1), dimensions={}
+  %maximum.7.5 = f32[256]{0} maximum(%multiply.8.5, %broadcast.26.5), metadata={op_name="jit(prequant)/jit(main)/max" source_file="/tmp/openpi-quant-audit-probe.py" source_line=23}
+  %broadcast.27.6 = f32[256,2048]{1,0} broadcast(%maximum.7.5), dimensions={0}, metadata={op_name="jit(prequant)/jit(main)/div" source_file="/tmp/openpi-quant-audit-probe.py" source_line=24}
+  %multiply.9.3 = f32[256,2048]{1,0} multiply(%param_1.21, %broadcast.27.6), metadata={op_name="jit(prequant)/jit(main)/mul" source_file="/tmp/openpi-quant-audit-probe.py" source_line=26}
+  %param_0.19 = f32[1,2048]{1,0} parameter(0)
+  %bitcast.124.5 = f32[2048]{0} bitcast(%param_0.19)
+  %broadcast.29.5 = f32[256,2048]{1,0} broadcast(%bitcast.124.5), dimensions={1}, metadata={op_name="jit(prequant)/jit(main)/mul" source_file="/tmp/openpi-quant-audit-probe.py" source_line=26}
+  %multiply.10.3 = f32[256,2048]{1,0} multiply(%multiply.9.3, %broadcast.29.5), metadata={op_name="jit(prequant)/jit(main)/mul" source_file="/tmp/openpi-quant-audit-probe.py" source_line=26}
+  ROOT %convert.13.1 = bf16[256,2048]{1,0} convert(%multiply.10.3), metadata={op_name="jit(prequant)/jit(main)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=26}
+}
+
+%fused_convert.1 (param_0.34: bf16[256,2048], param_1.37: f32[256]) -> s8[256,2048] {
+  %constant_2_1 = f32[] constant(-127), metadata={op_name="jit(prequant)/jit(main)/jit(clip)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %broadcast.23.5 = f32[256,2048]{1,0} broadcast(%constant_2_1), dimensions={}, metadata={op_name="jit(prequant)/jit(main)/jit(clip)/max" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %param_0.34 = bf16[256,2048]{1,0} parameter(0)
+  %convert.10.10 = f32[256,2048]{1,0} convert(%param_0.34), metadata={op_name="jit(prequant)/jit(main)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=24}
+  %param_1.37 = f32[256]{0} parameter(1)
+  %constant_19 = f32[] constant(0.00787401572)
+  %broadcast.25.3 = f32[256]{0} broadcast(%constant_19), dimensions={}
+  %multiply.8.3 = f32[256]{0} multiply(%param_1.37, %broadcast.25.3), metadata={op_name="jit(prequant)/jit(main)/div" source_file="/tmp/openpi-quant-audit-probe.py" source_line=23}
+  %constant_4_2 = f32[] constant(1e-08)
+  %broadcast.26.3 = f32[256]{0} broadcast(%constant_4_2), dimensions={}
+  %maximum.7.3 = f32[256]{0} maximum(%multiply.8.3, %broadcast.26.3), metadata={op_name="jit(prequant)/jit(main)/max" source_file="/tmp/openpi-quant-audit-probe.py" source_line=23}
+  %broadcast.27.10 = f32[256,2048]{1,0} broadcast(%maximum.7.3), dimensions={0}, metadata={op_name="jit(prequant)/jit(main)/div" source_file="/tmp/openpi-quant-audit-probe.py" source_line=24}
+  %divide.2.7 = f32[256,2048]{1,0} divide(%convert.10.10, %broadcast.27.10), metadata={op_name="jit(prequant)/jit(main)/div" source_file="/tmp/openpi-quant-audit-probe.py" source_line=24}
+  %constant_1_1 = f32[] constant(127), metadata={op_name="jit(prequant)/jit(main)/jit(clip)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %broadcast.28.5 = f32[256,2048]{1,0} broadcast(%constant_1_1), dimensions={}, metadata={op_name="jit(prequant)/jit(main)/jit(clip)/min" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %clamp.3.5 = f32[256,2048]{1,0} clamp(%broadcast.23.5, %divide.2.7, %broadcast.28.5), metadata={op_name="jit(prequant)/jit(main)/jit(clip)/min" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  %round-nearest-even.3.3 = f32[256,2048]{1,0} round-nearest-even(%clamp.3.5), metadata={op_name="jit(prequant)/jit(main)/jit(rint)/round" source_file="/tmp/openpi-quant-audit-probe.py" source_line=21}
+  ROOT %convert.12.1 = s8[256,2048]{1,0} convert(%round-nearest-even.3.3), metadata={op_name="jit(prequant)/jit(main)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=24}
+}
+
+ENTRY %main.53 (Arg_0.1.0: bf16[256,2048], Arg_1.2.0: s8[2048,2048], Arg_2.3.0: f32[1,2048]) -> bf16[256,2048] {
+  %Arg_0.1.0 = bf16[256,2048]{1,0} parameter(0), metadata={op_name="a"}
+  %Arg_2.3.0 = f32[1,2048]{1,0} parameter(2), metadata={op_name="s"}
+  %Arg_1.2.0 = s8[2048,2048]{1,0} parameter(1), metadata={op_name="b"}
+  %input_reduce_fusion = f32[256]{0} fusion(%Arg_0.1.0), kind=kInput, calls=%fused_reduce, metadata={op_name="jit(prequant)/jit(main)/reduce_max" source_file="/tmp/openpi-quant-audit-probe.py" source_line=23}
+  %loop_convert_fusion.1 = s8[256,2048]{1,0} fusion(%Arg_0.1.0, %input_reduce_fusion), kind=kLoop, calls=%fused_convert.1, metadata={op_name="jit(prequant)/jit(main)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=24}
+  %gemm_fusion_dot.42.0 = f32[256,2048]{1,0} fusion(%loop_convert_fusion.1, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.42_computation, metadata={op_name="jit(prequant)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=25}, backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"fusion_backend_config":{"kind":"__triton_gemm","triton_gemm_config":{"block_m":"128","block_n":"32","block_k":"64","split_k":"1","num_stages":"4","num_warps":"4","num_ctas":"1"}},"force_earliest_schedule":false}
+  ROOT %loop_convert_fusion = bf16[256,2048]{1,0} fusion(%Arg_2.3.0, %gemm_fusion_dot.42.0, %input_reduce_fusion), kind=kLoop, calls=%fused_convert, metadata={op_name="jit(prequant)/jit(main)/convert_element_type" source_file="/tmp/openpi-quant-audit-probe.py" source_line=26}
+}
+

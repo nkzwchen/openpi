@@ -1,0 +1,9 @@
+HloModule jit__lambda_, is_scheduled=true, entry_computation_layout={(bf16[256,2048]{1,0}, bf16[2048,2048]{1,0})->bf16[256,2048]{1,0}}, allow_spmd_sharding_propagation_to_parameters={true,true}, allow_spmd_sharding_propagation_to_output={true}, frontend_attributes={fingerprint_before_lhs="f6cfef7afc9c29e9932a39c2ac2d8189"}
+
+ENTRY %main.4 (Arg_0.1.0: bf16[256,2048], Arg_1.2.0: bf16[2048,2048]) -> bf16[256,2048] {
+  %Arg_1.2.0 = bf16[2048,2048]{1,0} parameter(1), metadata={op_name="b"}
+  %Arg_0.1.0 = bf16[256,2048]{1,0} parameter(0), metadata={op_name="a"}
+  %custom-call.1.0 = (bf16[256,2048]{1,0}, s8[4194304]{0}) custom-call(%Arg_0.1.0, %Arg_1.2.0), custom_call_target="__cublas$gemm", metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=28}, backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"gemm_backend_config":{"alpha_real":1,"alpha_imag":0,"beta":0,"dot_dimension_numbers":{"lhs_contracting_dimensions":["1"],"rhs_contracting_dimensions":["0"],"lhs_batch_dimensions":[],"rhs_batch_dimensions":[]},"precision_config":{"operand_precision":["DEFAULT","DEFAULT"],"algorithm":"ALG_UNSET"},"epilogue":"DEFAULT","damax_output":false,"lhs_stride":"524288","rhs_stride":"4194304","grad_x":false,"grad_y":false},"force_earliest_schedule":false}
+  ROOT %get-tuple-element.1 = bf16[256,2048]{1,0} get-tuple-element(%custom-call.1.0), index=0, metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=28}
+}
+

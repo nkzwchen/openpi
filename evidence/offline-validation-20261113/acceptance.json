@@ -1,0 +1,75 @@
+{
+  "synthetic": true,
+  "export": {
+    "contract": "so101_openpi_absolute6_v1",
+    "horizon": 10,
+    "prompt": "pick blocks from table",
+    "sources": [
+      {
+        "path": "<WORKSPACE>/openpi-acceptance/raw/batch_0/ep_0000.pkl",
+        "sha256": "888d41931fb4086d9e01929da444a770038bf5758f789e790360971c06430d7d",
+        "batch_id": "1a3ac089dc913ec334da771d844612fc9689f2beaf3d748b2c36271b1e33a7f1",
+        "split": "train",
+        "review_sha256": "19ecfd81269a3c2343972be6cc5bebaa909f35e768a2df22d34a751c14a0dfd6",
+        "segments": 1,
+        "valid_starts": 27,
+        "reasons": {
+          "tail_without_full_horizon": 9
+        }
+      },
+      {
+        "path": "<WORKSPACE>/openpi-acceptance/raw/batch_1/ep_0000.pkl",
+        "sha256": "f27dd525736d165fa593f73111fb266532af352c9194a7da3d4b18791b58d4b1",
+        "batch_id": "270515336bc26f52e4c2b001249499b5a135ade0bbcfc5bfce9fb3d58f2109ea",
+        "split": "train",
+        "review_sha256": "9c367aad5d97c9a68421aa74c073f00487faa2791ad02b4c53387bb5853984d8",
+        "segments": 2,
+        "valid_starts": 12,
+        "reasons": {
+          "tail_without_full_horizon": 18,
+          "not_expert": 6
+        }
+      },
+      {
+        "path": "<WORKSPACE>/openpi-acceptance/raw/batch_2/ep_0000.pkl",
+        "sha256": "92bec5deef42613d3a6330aeaca9072ad54e24cd6270fc7dbca1ad43b2f6c790",
+        "batch_id": "bd26e48f05db5505a8d07967ccbc219877b26df45b0537fede29a66a1c25b7d0",
+        "split": "validation",
+        "review_sha256": "0fdc4851f135257bde79309603cb03da8d3c6c9655e5813079d1d92db22ec36f",
+        "segments": 1,
+        "valid_starts": 27,
+        "reasons": {
+          "tail_without_full_horizon": 9
+        }
+      },
+      {
+        "path": "<WORKSPACE>/openpi-acceptance/raw/batch_3/ep_0000.pkl",
+        "sha256": "017591b937af17c29307d80af37ab8fd6b6b36d03b3bd57aaf24590334f76ed0",
+        "batch_id": "d4d9dd0b753a7cfe88e3f5694ae45201cba695828b127ad5b92ae3a781ef2fdb",
+        "split": "validation",
+        "review_sha256": "45bbff23003cfa2eeca91b339863925531615a43ac878d8da3b3ba18aa05eac2",
+        "segments": 2,
+        "valid_starts": 12,
+        "reasons": {
+          "tail_without_full_horizon": 18,
+          "not_expert": 6
+        }
+      }
+    ],
+    "synthetic": true,
+    "splits": {
+      "train": {
+        "frames": 66,
+        "episodes": 3,
+        "valid_starts": 39
+      },
+      "validation": {
+        "frames": 66,
+        "episodes": 3,
+        "valid_starts": 39
+      }
+    },
+    "empty_splits": []
+  },
+  "model_smoke": "not_run"
+}

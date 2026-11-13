@@ -1,0 +1,14 @@
+HloModule jit__lambda_, is_scheduled=true, entry_computation_layout={(bf16[968,2048]{1,0}, bf16[2048,2048]{1,0})->bf16[968,2048]{1,0}}, allow_spmd_sharding_propagation_to_parameters={true,true}, allow_spmd_sharding_propagation_to_output={true}, frontend_attributes={fingerprint_before_lhs="5bad1226ed8c8f419406e4878112a28a"}
+
+%gemm_fusion_dot.3_computation (parameter_0: bf16[968,2048], parameter_1: bf16[2048,2048]) -> bf16[968,2048] {
+  %parameter_0 = bf16[968,2048]{1,0} parameter(0)
+  %parameter_1 = bf16[2048,2048]{1,0} parameter(1)
+  ROOT %dot.0 = bf16[968,2048]{1,0} dot(%parameter_0, %parameter_1), lhs_contracting_dims={1}, rhs_contracting_dims={0}, metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=28}
+}
+
+ENTRY %main.4 (Arg_0.1.0: bf16[968,2048], Arg_1.2.0: bf16[2048,2048]) -> bf16[968,2048] {
+  %Arg_1.2.0 = bf16[2048,2048]{1,0} parameter(1), metadata={op_name="b"}
+  %Arg_0.1.0 = bf16[968,2048]{1,0} parameter(0), metadata={op_name="a"}
+  ROOT %gemm_fusion_dot.3.0 = bf16[968,2048]{1,0} fusion(%Arg_0.1.0, %Arg_1.2.0), kind=kCustom, calls=%gemm_fusion_dot.3_computation, metadata={op_name="jit(<lambda>)/jit(main)/dot_general" source_file="/tmp/openpi-quant-audit-probe.py" source_line=28}, backend_config={"operation_queue_id":"0","wait_on_operation_queues":[],"fusion_backend_config":{"kind":"__triton_gemm","triton_gemm_config":{"block_m":"128","block_n":"128","block_k":"32","split_k":"1","num_stages":"4","num_warps":"4","num_ctas":"1"}},"force_earliest_schedule":false}
+}
+

@@ -1,0 +1,2463 @@
+{
+  "source_dataset": "<DATASET_ROOT>/dataset_combined_all",
+  "source_fps": 20,
+  "sample_hz": 10,
+  "total_episodes": 90,
+  "total_frames": 35926,
+  "seed": 20261022,
+  "calibration_episodes": [
+    49,
+    2,
+    32,
+    15,
+    14,
+    36,
+    37,
+    1,
+    8,
+    59,
+    0,
+    65,
+    25,
+    38,
+    63,
+    60,
+    51,
+    75,
+    44,
+    48,
+    19,
+    4,
+    3,
+    70,
+    66,
+    24,
+    16,
+    52,
+    67,
+    26,
+    18,
+    30,
+    84,
+    35,
+    27,
+    86,
+    5,
+    28,
+    54,
+    76,
+    40,
+    43,
+    87,
+    39,
+    79
+  ],
+  "evaluation_episodes": [
+    45,
+    56,
+    78,
+    7,
+    9,
+    80,
+    33,
+    81,
+    85,
+    21,
+    22,
+    20,
+    50,
+    74,
+    23,
+    58,
+    69,
+    13,
+    61,
+    10,
+    53,
+    57,
+    72,
+    64,
+    47,
+    11,
+    46,
+    41,
+    55,
+    12,
+    73,
+    89,
+    62,
+    82,
+    17,
+    71,
+    31,
+    68,
+    88,
+    34,
+    77,
+    29,
+    42,
+    83,
+    6
+  ],
+  "samples": {
+    "calibration": [
+      {
+        "episode_index": 49,
+        "frame_index": 88,
+        "dataset_row": 19655,
+        "time_s": 4.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 19655,
+            "timestamp_s": 982.7500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 19655,
+            "timestamp_s": 982.7500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 2,
+        "frame_index": 288,
+        "dataset_row": 1088,
+        "time_s": 14.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 1088,
+            "timestamp_s": 54.4
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 1088,
+            "timestamp_s": 54.4
+          }
+        }
+      },
+      {
+        "episode_index": 32,
+        "frame_index": 244,
+        "dataset_row": 13028,
+        "time_s": 12.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 13028,
+            "timestamp_s": 651.4000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 13028,
+            "timestamp_s": 651.4000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 15,
+        "frame_index": 24,
+        "dataset_row": 6016,
+        "time_s": 1.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 6016,
+            "timestamp_s": 300.8
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 6016,
+            "timestamp_s": 300.8
+          }
+        }
+      },
+      {
+        "episode_index": 14,
+        "frame_index": 368,
+        "dataset_row": 5960,
+        "time_s": 18.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 5960,
+            "timestamp_s": 298.0
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 5960,
+            "timestamp_s": 298.0
+          }
+        }
+      },
+      {
+        "episode_index": 36,
+        "frame_index": 120,
+        "dataset_row": 14500,
+        "time_s": 6.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 14500,
+            "timestamp_s": 725.0000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 14500,
+            "timestamp_s": 725.0000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 37,
+        "frame_index": 6,
+        "dataset_row": 14785,
+        "time_s": 0.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 14785,
+            "timestamp_s": 739.25
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 14785,
+            "timestamp_s": 739.25
+          }
+        }
+      },
+      {
+        "episode_index": 1,
+        "frame_index": 354,
+        "dataset_row": 754,
+        "time_s": 17.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 754,
+            "timestamp_s": 37.7
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 754,
+            "timestamp_s": 37.7
+          }
+        }
+      },
+      {
+        "episode_index": 8,
+        "frame_index": 384,
+        "dataset_row": 3580,
+        "time_s": 19.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 3580,
+            "timestamp_s": 179.0
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 3580,
+            "timestamp_s": 179.0
+          }
+        }
+      },
+      {
+        "episode_index": 59,
+        "frame_index": 8,
+        "dataset_row": 23565,
+        "time_s": 0.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 23565,
+            "timestamp_s": 1178.2500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 23565,
+            "timestamp_s": 1178.2500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 0,
+        "frame_index": 236,
+        "dataset_row": 236,
+        "time_s": 11.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 236,
+            "timestamp_s": 11.8
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 236,
+            "timestamp_s": 11.8
+          }
+        }
+      },
+      {
+        "episode_index": 65,
+        "frame_index": 130,
+        "dataset_row": 26081,
+        "time_s": 6.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 26081,
+            "timestamp_s": 1304.0500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 26081,
+            "timestamp_s": 1304.0500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 25,
+        "frame_index": 220,
+        "dataset_row": 10211,
+        "time_s": 11.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 10211,
+            "timestamp_s": 510.55
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 10211,
+            "timestamp_s": 510.55
+          }
+        }
+      },
+      {
+        "episode_index": 38,
+        "frame_index": 42,
+        "dataset_row": 15220,
+        "time_s": 2.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 15220,
+            "timestamp_s": 761.0000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 15220,
+            "timestamp_s": 761.0000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 63,
+        "frame_index": 236,
+        "dataset_row": 25389,
+        "time_s": 11.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 25389,
+            "timestamp_s": 1269.45
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 25389,
+            "timestamp_s": 1269.45
+          }
+        }
+      },
+      {
+        "episode_index": 60,
+        "frame_index": 30,
+        "dataset_row": 23986,
+        "time_s": 1.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 23986,
+            "timestamp_s": 1199.3000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 23986,
+            "timestamp_s": 1199.3000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 51,
+        "frame_index": 270,
+        "dataset_row": 20635,
+        "time_s": 13.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 20635,
+            "timestamp_s": 1031.7500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 20635,
+            "timestamp_s": 1031.7500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 75,
+        "frame_index": 318,
+        "dataset_row": 30259,
+        "time_s": 15.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 30259,
+            "timestamp_s": 1512.9500000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 30259,
+            "timestamp_s": 1512.9500000000003
+          }
+        }
+      },
+      {
+        "episode_index": 44,
+        "frame_index": 138,
+        "dataset_row": 17710,
+        "time_s": 6.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 17710,
+            "timestamp_s": 885.5000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 17710,
+            "timestamp_s": 885.5000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 48,
+        "frame_index": 372,
+        "dataset_row": 19540,
+        "time_s": 18.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 19540,
+            "timestamp_s": 977.0000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 19540,
+            "timestamp_s": 977.0000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 19,
+        "frame_index": 72,
+        "dataset_row": 7664,
+        "time_s": 3.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 7664,
+            "timestamp_s": 383.20000000000005
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 7664,
+            "timestamp_s": 383.20000000000005
+          }
+        }
+      },
+      {
+        "episode_index": 4,
+        "frame_index": 68,
+        "dataset_row": 1668,
+        "time_s": 3.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 1668,
+            "timestamp_s": 83.4
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 1668,
+            "timestamp_s": 83.4
+          }
+        }
+      },
+      {
+        "episode_index": 3,
+        "frame_index": 254,
+        "dataset_row": 1454,
+        "time_s": 12.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 1454,
+            "timestamp_s": 72.7
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 1454,
+            "timestamp_s": 72.7
+          }
+        }
+      },
+      {
+        "episode_index": 70,
+        "frame_index": 288,
+        "dataset_row": 28234,
+        "time_s": 14.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 28234,
+            "timestamp_s": 1411.7000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 28234,
+            "timestamp_s": 1411.7000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 66,
+        "frame_index": 144,
+        "dataset_row": 26494,
+        "time_s": 7.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 26494,
+            "timestamp_s": 1324.7000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 26494,
+            "timestamp_s": 1324.7000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 24,
+        "frame_index": 60,
+        "dataset_row": 9652,
+        "time_s": 3.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 9652,
+            "timestamp_s": 482.6
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 9652,
+            "timestamp_s": 482.6
+          }
+        }
+      },
+      {
+        "episode_index": 16,
+        "frame_index": 220,
+        "dataset_row": 6612,
+        "time_s": 11.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 6612,
+            "timestamp_s": 330.6
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 6612,
+            "timestamp_s": 330.6
+          }
+        }
+      },
+      {
+        "episode_index": 52,
+        "frame_index": 178,
+        "dataset_row": 20942,
+        "time_s": 8.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 20942,
+            "timestamp_s": 1047.1000000000004
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 20942,
+            "timestamp_s": 1047.1000000000004
+          }
+        }
+      },
+      {
+        "episode_index": 67,
+        "frame_index": 186,
+        "dataset_row": 26935,
+        "time_s": 9.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 26935,
+            "timestamp_s": 1346.7500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 26935,
+            "timestamp_s": 1346.7500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 26,
+        "frame_index": 288,
+        "dataset_row": 10678,
+        "time_s": 14.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 10678,
+            "timestamp_s": 533.9
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 10678,
+            "timestamp_s": 533.9
+          }
+        }
+      },
+      {
+        "episode_index": 18,
+        "frame_index": 296,
+        "dataset_row": 7488,
+        "time_s": 14.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 7488,
+            "timestamp_s": 374.40000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 7488,
+            "timestamp_s": 374.40000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 30,
+        "frame_index": 334,
+        "dataset_row": 12320,
+        "time_s": 16.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 12320,
+            "timestamp_s": 616.0000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 12320,
+            "timestamp_s": 616.0000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 84,
+        "frame_index": 184,
+        "dataset_row": 33716,
+        "time_s": 9.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 33716,
+            "timestamp_s": 1685.8000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 33716,
+            "timestamp_s": 1685.8000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 35,
+        "frame_index": 26,
+        "dataset_row": 14007,
+        "time_s": 1.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 14007,
+            "timestamp_s": 700.35
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 14007,
+            "timestamp_s": 700.35
+          }
+        }
+      },
+      {
+        "episode_index": 27,
+        "frame_index": 206,
+        "dataset_row": 10995,
+        "time_s": 10.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 10995,
+            "timestamp_s": 549.75
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 10995,
+            "timestamp_s": 549.75
+          }
+        }
+      },
+      {
+        "episode_index": 86,
+        "frame_index": 42,
+        "dataset_row": 34372,
+        "time_s": 2.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 34372,
+            "timestamp_s": 1718.6000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 34372,
+            "timestamp_s": 1718.6000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 5,
+        "frame_index": 52,
+        "dataset_row": 2048,
+        "time_s": 2.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 2048,
+            "timestamp_s": 102.39999999999999
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 2048,
+            "timestamp_s": 102.39999999999999
+          }
+        }
+      },
+      {
+        "episode_index": 28,
+        "frame_index": 172,
+        "dataset_row": 11360,
+        "time_s": 8.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 11360,
+            "timestamp_s": 568.0
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 11360,
+            "timestamp_s": 568.0
+          }
+        }
+      },
+      {
+        "episode_index": 54,
+        "frame_index": 108,
+        "dataset_row": 21670,
+        "time_s": 5.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 21670,
+            "timestamp_s": 1083.5000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 21670,
+            "timestamp_s": 1083.5000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 76,
+        "frame_index": 134,
+        "dataset_row": 30474,
+        "time_s": 6.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 30474,
+            "timestamp_s": 1523.7000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 30474,
+            "timestamp_s": 1523.7000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 40,
+        "frame_index": 32,
+        "dataset_row": 16008,
+        "time_s": 1.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 16008,
+            "timestamp_s": 800.4000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 16008,
+            "timestamp_s": 800.4000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 43,
+        "frame_index": 188,
+        "dataset_row": 17361,
+        "time_s": 9.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 17361,
+            "timestamp_s": 868.0500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 17361,
+            "timestamp_s": 868.0500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 87,
+        "frame_index": 312,
+        "dataset_row": 35041,
+        "time_s": 15.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 35041,
+            "timestamp_s": 1752.05
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 35041,
+            "timestamp_s": 1752.05
+          }
+        }
+      },
+      {
+        "episode_index": 39,
+        "frame_index": 102,
+        "dataset_row": 15679,
+        "time_s": 5.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 15679,
+            "timestamp_s": 783.9500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 15679,
+            "timestamp_s": 783.9500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 79,
+        "frame_index": 374,
+        "dataset_row": 31911,
+        "time_s": 18.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 31911,
+            "timestamp_s": 1595.5500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 31911,
+            "timestamp_s": 1595.5500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 49,
+        "frame_index": 224,
+        "dataset_row": 19791,
+        "time_s": 11.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 19791,
+            "timestamp_s": 989.5500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 19791,
+            "timestamp_s": 989.5500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 2,
+        "frame_index": 182,
+        "dataset_row": 982,
+        "time_s": 9.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 982,
+            "timestamp_s": 49.1
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 982,
+            "timestamp_s": 49.1
+          }
+        }
+      },
+      {
+        "episode_index": 32,
+        "frame_index": 246,
+        "dataset_row": 13030,
+        "time_s": 12.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 13030,
+            "timestamp_s": 651.5
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 13030,
+            "timestamp_s": 651.5
+          }
+        }
+      },
+      {
+        "episode_index": 15,
+        "frame_index": 142,
+        "dataset_row": 6134,
+        "time_s": 7.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 6134,
+            "timestamp_s": 306.70000000000005
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 6134,
+            "timestamp_s": 306.70000000000005
+          }
+        }
+      },
+      {
+        "episode_index": 14,
+        "frame_index": 380,
+        "dataset_row": 5972,
+        "time_s": 19.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 5972,
+            "timestamp_s": 298.6
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 5972,
+            "timestamp_s": 298.6
+          }
+        }
+      },
+      {
+        "episode_index": 36,
+        "frame_index": 70,
+        "dataset_row": 14450,
+        "time_s": 3.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 14450,
+            "timestamp_s": 722.5000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 14450,
+            "timestamp_s": 722.5000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 37,
+        "frame_index": 268,
+        "dataset_row": 15047,
+        "time_s": 13.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 15047,
+            "timestamp_s": 752.35
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 15047,
+            "timestamp_s": 752.35
+          }
+        }
+      },
+      {
+        "episode_index": 1,
+        "frame_index": 16,
+        "dataset_row": 416,
+        "time_s": 0.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 416,
+            "timestamp_s": 20.8
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 416,
+            "timestamp_s": 20.8
+          }
+        }
+      },
+      {
+        "episode_index": 8,
+        "frame_index": 44,
+        "dataset_row": 3240,
+        "time_s": 2.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 3240,
+            "timestamp_s": 162.0
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 3240,
+            "timestamp_s": 162.0
+          }
+        }
+      },
+      {
+        "episode_index": 59,
+        "frame_index": 126,
+        "dataset_row": 23683,
+        "time_s": 6.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 23683,
+            "timestamp_s": 1184.15
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 23683,
+            "timestamp_s": 1184.15
+          }
+        }
+      },
+      {
+        "episode_index": 0,
+        "frame_index": 372,
+        "dataset_row": 372,
+        "time_s": 18.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 372,
+            "timestamp_s": 18.6
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 372,
+            "timestamp_s": 18.6
+          }
+        }
+      },
+      {
+        "episode_index": 65,
+        "frame_index": 286,
+        "dataset_row": 26237,
+        "time_s": 14.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 26237,
+            "timestamp_s": 1311.8500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 26237,
+            "timestamp_s": 1311.8500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 25,
+        "frame_index": 144,
+        "dataset_row": 10135,
+        "time_s": 7.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 10135,
+            "timestamp_s": 506.75
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 10135,
+            "timestamp_s": 506.75
+          }
+        }
+      },
+      {
+        "episode_index": 38,
+        "frame_index": 166,
+        "dataset_row": 15344,
+        "time_s": 8.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 15344,
+            "timestamp_s": 767.2
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 15344,
+            "timestamp_s": 767.2
+          }
+        }
+      },
+      {
+        "episode_index": 63,
+        "frame_index": 134,
+        "dataset_row": 25287,
+        "time_s": 6.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 25287,
+            "timestamp_s": 1264.3500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 25287,
+            "timestamp_s": 1264.3500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 60,
+        "frame_index": 86,
+        "dataset_row": 24042,
+        "time_s": 4.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 24042,
+            "timestamp_s": 1202.1000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 24042,
+            "timestamp_s": 1202.1000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 51,
+        "frame_index": 332,
+        "dataset_row": 20697,
+        "time_s": 16.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 20697,
+            "timestamp_s": 1034.8500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 20697,
+            "timestamp_s": 1034.8500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 75,
+        "frame_index": 250,
+        "dataset_row": 30191,
+        "time_s": 12.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 30191,
+            "timestamp_s": 1509.5500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 30191,
+            "timestamp_s": 1509.5500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 44,
+        "frame_index": 8,
+        "dataset_row": 17580,
+        "time_s": 0.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 17580,
+            "timestamp_s": 879.0000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 17580,
+            "timestamp_s": 879.0000000000001
+          }
+        }
+      }
+    ],
+    "evaluation": [
+      {
+        "episode_index": 45,
+        "frame_index": 292,
+        "dataset_row": 18263,
+        "time_s": 14.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 18263,
+            "timestamp_s": 913.1500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 18263,
+            "timestamp_s": 913.1500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 56,
+        "frame_index": 260,
+        "dataset_row": 22620,
+        "time_s": 13.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 22620,
+            "timestamp_s": 1131.0000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 22620,
+            "timestamp_s": 1131.0000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 78,
+        "frame_index": 290,
+        "dataset_row": 31428,
+        "time_s": 14.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 31428,
+            "timestamp_s": 1571.4
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 31428,
+            "timestamp_s": 1571.4
+          }
+        }
+      },
+      {
+        "episode_index": 7,
+        "frame_index": 272,
+        "dataset_row": 3068,
+        "time_s": 13.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 3068,
+            "timestamp_s": 153.4
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 3068,
+            "timestamp_s": 153.4
+          }
+        }
+      },
+      {
+        "episode_index": 9,
+        "frame_index": 340,
+        "dataset_row": 3932,
+        "time_s": 17.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 3932,
+            "timestamp_s": 196.6
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 3932,
+            "timestamp_s": 196.6
+          }
+        }
+      },
+      {
+        "episode_index": 80,
+        "frame_index": 156,
+        "dataset_row": 32092,
+        "time_s": 7.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 32092,
+            "timestamp_s": 1604.6000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 32092,
+            "timestamp_s": 1604.6000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 33,
+        "frame_index": 98,
+        "dataset_row": 13281,
+        "time_s": 4.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 13281,
+            "timestamp_s": 664.0500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 13281,
+            "timestamp_s": 664.0500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 81,
+        "frame_index": 338,
+        "dataset_row": 32673,
+        "time_s": 16.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 32673,
+            "timestamp_s": 1633.6500000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 32673,
+            "timestamp_s": 1633.6500000000003
+          }
+        }
+      },
+      {
+        "episode_index": 85,
+        "frame_index": 70,
+        "dataset_row": 34001,
+        "time_s": 3.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 34001,
+            "timestamp_s": 1700.0500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 34001,
+            "timestamp_s": 1700.0500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 21,
+        "frame_index": 292,
+        "dataset_row": 8684,
+        "time_s": 14.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 8684,
+            "timestamp_s": 434.20000000000005
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 8684,
+            "timestamp_s": 434.20000000000005
+          }
+        }
+      },
+      {
+        "episode_index": 22,
+        "frame_index": 242,
+        "dataset_row": 9034,
+        "time_s": 12.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 9034,
+            "timestamp_s": 451.70000000000005
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 9034,
+            "timestamp_s": 451.70000000000005
+          }
+        }
+      },
+      {
+        "episode_index": 20,
+        "frame_index": 56,
+        "dataset_row": 8048,
+        "time_s": 2.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 8048,
+            "timestamp_s": 402.40000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 8048,
+            "timestamp_s": 402.40000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 50,
+        "frame_index": 228,
+        "dataset_row": 20194,
+        "time_s": 11.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 20194,
+            "timestamp_s": 1009.7000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 20194,
+            "timestamp_s": 1009.7000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 74,
+        "frame_index": 28,
+        "dataset_row": 29570,
+        "time_s": 1.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 29570,
+            "timestamp_s": 1478.5000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 29570,
+            "timestamp_s": 1478.5000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 23,
+        "frame_index": 306,
+        "dataset_row": 9498,
+        "time_s": 15.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 9498,
+            "timestamp_s": 474.90000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 9498,
+            "timestamp_s": 474.90000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 58,
+        "frame_index": 398,
+        "dataset_row": 23556,
+        "time_s": 19.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 23556,
+            "timestamp_s": 1177.8000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 23556,
+            "timestamp_s": 1177.8000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 69,
+        "frame_index": 358,
+        "dataset_row": 27905,
+        "time_s": 17.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 27905,
+            "timestamp_s": 1395.2500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 27905,
+            "timestamp_s": 1395.2500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 13,
+        "frame_index": 342,
+        "dataset_row": 5534,
+        "time_s": 17.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 5534,
+            "timestamp_s": 276.70000000000005
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 5534,
+            "timestamp_s": 276.70000000000005
+          }
+        }
+      },
+      {
+        "episode_index": 61,
+        "frame_index": 330,
+        "dataset_row": 24685,
+        "time_s": 16.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 24685,
+            "timestamp_s": 1234.2500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 24685,
+            "timestamp_s": 1234.2500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 10,
+        "frame_index": 362,
+        "dataset_row": 4354,
+        "time_s": 18.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 4354,
+            "timestamp_s": 217.7
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 4354,
+            "timestamp_s": 217.7
+          }
+        }
+      },
+      {
+        "episode_index": 53,
+        "frame_index": 16,
+        "dataset_row": 21179,
+        "time_s": 0.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 21179,
+            "timestamp_s": 1058.95
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 21179,
+            "timestamp_s": 1058.95
+          }
+        }
+      },
+      {
+        "episode_index": 57,
+        "frame_index": 88,
+        "dataset_row": 22847,
+        "time_s": 4.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 22847,
+            "timestamp_s": 1142.3500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 22847,
+            "timestamp_s": 1142.3500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 72,
+        "frame_index": 368,
+        "dataset_row": 29112,
+        "time_s": 18.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 29112,
+            "timestamp_s": 1455.6000000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 29112,
+            "timestamp_s": 1455.6000000000001
+          }
+        }
+      },
+      {
+        "episode_index": 64,
+        "frame_index": 64,
+        "dataset_row": 25616,
+        "time_s": 3.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 25616,
+            "timestamp_s": 1280.8000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 25616,
+            "timestamp_s": 1280.8000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 47,
+        "frame_index": 216,
+        "dataset_row": 18985,
+        "time_s": 10.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 18985,
+            "timestamp_s": 949.2500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 18985,
+            "timestamp_s": 949.2500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 11,
+        "frame_index": 64,
+        "dataset_row": 4456,
+        "time_s": 3.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 4456,
+            "timestamp_s": 222.79999999999998
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 4456,
+            "timestamp_s": 222.79999999999998
+          }
+        }
+      },
+      {
+        "episode_index": 46,
+        "frame_index": 372,
+        "dataset_row": 18742,
+        "time_s": 18.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 18742,
+            "timestamp_s": 937.1000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 18742,
+            "timestamp_s": 937.1000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 41,
+        "frame_index": 22,
+        "dataset_row": 16397,
+        "time_s": 1.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 16397,
+            "timestamp_s": 819.8500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 16397,
+            "timestamp_s": 819.8500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 55,
+        "frame_index": 258,
+        "dataset_row": 22219,
+        "time_s": 12.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 22219,
+            "timestamp_s": 1110.9500000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 22219,
+            "timestamp_s": 1110.9500000000003
+          }
+        }
+      },
+      {
+        "episode_index": 12,
+        "frame_index": 156,
+        "dataset_row": 4948,
+        "time_s": 7.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 4948,
+            "timestamp_s": 247.4
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 4948,
+            "timestamp_s": 247.4
+          }
+        }
+      },
+      {
+        "episode_index": 73,
+        "frame_index": 12,
+        "dataset_row": 29155,
+        "time_s": 0.6,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 29155,
+            "timestamp_s": 1457.75
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 29155,
+            "timestamp_s": 1457.75
+          }
+        }
+      },
+      {
+        "episode_index": 89,
+        "frame_index": 384,
+        "dataset_row": 35911,
+        "time_s": 19.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 35911,
+            "timestamp_s": 1795.5500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 35911,
+            "timestamp_s": 1795.5500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 62,
+        "frame_index": 36,
+        "dataset_row": 24790,
+        "time_s": 1.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 24790,
+            "timestamp_s": 1239.5000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 24790,
+            "timestamp_s": 1239.5000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 82,
+        "frame_index": 56,
+        "dataset_row": 32790,
+        "time_s": 2.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 32790,
+            "timestamp_s": 1639.5000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 32790,
+            "timestamp_s": 1639.5000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 17,
+        "frame_index": 168,
+        "dataset_row": 6960,
+        "time_s": 8.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 6960,
+            "timestamp_s": 348.0
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 6960,
+            "timestamp_s": 348.0
+          }
+        }
+      },
+      {
+        "episode_index": 71,
+        "frame_index": 154,
+        "dataset_row": 28499,
+        "time_s": 7.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 28499,
+            "timestamp_s": 1424.9500000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 28499,
+            "timestamp_s": 1424.9500000000003
+          }
+        }
+      },
+      {
+        "episode_index": 31,
+        "frame_index": 14,
+        "dataset_row": 12399,
+        "time_s": 0.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 12399,
+            "timestamp_s": 619.9500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 12399,
+            "timestamp_s": 619.9500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 68,
+        "frame_index": 48,
+        "dataset_row": 27196,
+        "time_s": 2.4,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 27196,
+            "timestamp_s": 1359.8000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 27196,
+            "timestamp_s": 1359.8000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 88,
+        "frame_index": 302,
+        "dataset_row": 35430,
+        "time_s": 15.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 35430,
+            "timestamp_s": 1771.5
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 35430,
+            "timestamp_s": 1771.5
+          }
+        }
+      },
+      {
+        "episode_index": 34,
+        "frame_index": 166,
+        "dataset_row": 13748,
+        "time_s": 8.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 13748,
+            "timestamp_s": 687.4
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 13748,
+            "timestamp_s": 687.4
+          }
+        }
+      },
+      {
+        "episode_index": 77,
+        "frame_index": 326,
+        "dataset_row": 31065,
+        "time_s": 16.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 31065,
+            "timestamp_s": 1553.2500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 31065,
+            "timestamp_s": 1553.2500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 29,
+        "frame_index": 290,
+        "dataset_row": 11877,
+        "time_s": 14.5,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 11877,
+            "timestamp_s": 593.85
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 11877,
+            "timestamp_s": 593.85
+          }
+        }
+      },
+      {
+        "episode_index": 42,
+        "frame_index": 22,
+        "dataset_row": 16796,
+        "time_s": 1.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 16796,
+            "timestamp_s": 839.8000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 16796,
+            "timestamp_s": 839.8000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 83,
+        "frame_index": 46,
+        "dataset_row": 33179,
+        "time_s": 2.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 33179,
+            "timestamp_s": 1658.95
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 33179,
+            "timestamp_s": 1658.95
+          }
+        }
+      },
+      {
+        "episode_index": 6,
+        "frame_index": 164,
+        "dataset_row": 2560,
+        "time_s": 8.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 2560,
+            "timestamp_s": 128.0
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 2560,
+            "timestamp_s": 128.0
+          }
+        }
+      },
+      {
+        "episode_index": 45,
+        "frame_index": 164,
+        "dataset_row": 18135,
+        "time_s": 8.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 18135,
+            "timestamp_s": 906.7500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 18135,
+            "timestamp_s": 906.7500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 56,
+        "frame_index": 66,
+        "dataset_row": 22426,
+        "time_s": 3.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 22426,
+            "timestamp_s": 1121.3000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 22426,
+            "timestamp_s": 1121.3000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 78,
+        "frame_index": 378,
+        "dataset_row": 31516,
+        "time_s": 18.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 31516,
+            "timestamp_s": 1575.8000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 31516,
+            "timestamp_s": 1575.8000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 7,
+        "frame_index": 184,
+        "dataset_row": 2980,
+        "time_s": 9.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 2980,
+            "timestamp_s": 149.0
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 2980,
+            "timestamp_s": 149.0
+          }
+        }
+      },
+      {
+        "episode_index": 9,
+        "frame_index": 40,
+        "dataset_row": 3632,
+        "time_s": 2.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 3632,
+            "timestamp_s": 181.6
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 3632,
+            "timestamp_s": 181.6
+          }
+        }
+      },
+      {
+        "episode_index": 80,
+        "frame_index": 244,
+        "dataset_row": 32180,
+        "time_s": 12.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 32180,
+            "timestamp_s": 1609.0000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 32180,
+            "timestamp_s": 1609.0000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 33,
+        "frame_index": 382,
+        "dataset_row": 13565,
+        "time_s": 19.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 13565,
+            "timestamp_s": 678.2500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 13565,
+            "timestamp_s": 678.2500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 81,
+        "frame_index": 226,
+        "dataset_row": 32561,
+        "time_s": 11.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 32561,
+            "timestamp_s": 1628.0500000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 32561,
+            "timestamp_s": 1628.0500000000002
+          }
+        }
+      },
+      {
+        "episode_index": 85,
+        "frame_index": 38,
+        "dataset_row": 33969,
+        "time_s": 1.9,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 33969,
+            "timestamp_s": 1698.4500000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 33969,
+            "timestamp_s": 1698.4500000000003
+          }
+        }
+      },
+      {
+        "episode_index": 21,
+        "frame_index": 206,
+        "dataset_row": 8598,
+        "time_s": 10.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 8598,
+            "timestamp_s": 429.90000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 8598,
+            "timestamp_s": 429.90000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 22,
+        "frame_index": 246,
+        "dataset_row": 9038,
+        "time_s": 12.3,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 9038,
+            "timestamp_s": 451.90000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 9038,
+            "timestamp_s": 451.90000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 20,
+        "frame_index": 120,
+        "dataset_row": 8112,
+        "time_s": 6.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 8112,
+            "timestamp_s": 405.6
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 8112,
+            "timestamp_s": 405.6
+          }
+        }
+      },
+      {
+        "episode_index": 50,
+        "frame_index": 182,
+        "dataset_row": 20148,
+        "time_s": 9.1,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 20148,
+            "timestamp_s": 1007.4000000000002
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 20148,
+            "timestamp_s": 1007.4000000000002
+          }
+        }
+      },
+      {
+        "episode_index": 74,
+        "frame_index": 176,
+        "dataset_row": 29718,
+        "time_s": 8.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 29718,
+            "timestamp_s": 1485.9
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 29718,
+            "timestamp_s": 1485.9
+          }
+        }
+      },
+      {
+        "episode_index": 23,
+        "frame_index": 216,
+        "dataset_row": 9408,
+        "time_s": 10.8,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 9408,
+            "timestamp_s": 470.40000000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 9408,
+            "timestamp_s": 470.40000000000003
+          }
+        }
+      },
+      {
+        "episode_index": 58,
+        "frame_index": 140,
+        "dataset_row": 23298,
+        "time_s": 7.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 23298,
+            "timestamp_s": 1164.9
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 23298,
+            "timestamp_s": 1164.9
+          }
+        }
+      },
+      {
+        "episode_index": 69,
+        "frame_index": 260,
+        "dataset_row": 27807,
+        "time_s": 13.0,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 27807,
+            "timestamp_s": 1390.3500000000001
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 27807,
+            "timestamp_s": 1390.3500000000001
+          }
+        }
+      },
+      {
+        "episode_index": 13,
+        "frame_index": 394,
+        "dataset_row": 5586,
+        "time_s": 19.7,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 5586,
+            "timestamp_s": 279.3
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 5586,
+            "timestamp_s": 279.3
+          }
+        }
+      },
+      {
+        "episode_index": 61,
+        "frame_index": 304,
+        "dataset_row": 24659,
+        "time_s": 15.2,
+        "videos": {
+          "observation.images.cam_main": {
+            "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+            "video_frame": 24659,
+            "timestamp_s": 1232.9500000000003
+          },
+          "observation.images.cam_wrist": {
+            "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+            "video_frame": 24659,
+            "timestamp_s": 1232.9500000000003
+          }
+        }
+      }
+    ]
+  },
+  "video_sources": [
+    {
+      "path": "videos/observation.images.cam_main/chunk-000/file-000.mp4",
+      "sha256": "ab85b3fc012cd1e10701fe2d431963d034987968a8dbdd0b9db6480536985cfb",
+      "decoded_selected_frames": 128
+    },
+    {
+      "path": "videos/observation.images.cam_wrist/chunk-000/file-000.mp4",
+      "sha256": "7244658c24767fb7d3764eb774fc66ee737395f4c575c55f5931bc24f793116a",
+      "decoded_selected_frames": 128
+    }
+  ],
+  "source_tasks": [
+    {
+      "task_index": 0,
+      "__index_level_0__": "Grasp blocks and put them into the box."
+    }
+  ],
+  "prompt_used": "pick blocks from table",
+  "state_order": [
+    "shoulder_pan.pos",
+    "shoulder_lift.pos",
+    "elbow_flex.pos",
+    "wrist_flex.pos",
+    "wrist_roll.pos",
+    "gripper.pos"
+  ],
+  "state_normalization": {
+    "method": "quantiles from calibration episodes only, no clipping",
+    "q01": [
+      -36.40517807006836,
+      -100.0,
+      -45.28845977783203,
+      9.780420303344727,
+      -6.301905155181885,
+      1.5509103536605835
+    ],
+    "q99": [
+      30.655956268310547,
+      51.200767517089844,
+      96.44230651855469,
+      99.634033203125,
+      59.69711685180664,
+      47.606204986572266
+    ],
+    "epsilon": 1e-06,
+    "scope": "surrogate benchmark statistics; not a trained SO101 checkpoint asset"
+  },
+  "image_preprocessing": "openpi_client.image_tools.resize_with_pad PIL bilinear to 224; full field of view, black letterbox",
+  "samples_sha256": "8f301e7eb93a821973d980f6e3a7efc1727b9ec5aba202f79ade1fc0a3bb13e0",
+  "scope": "Real observation calibration and BF16/FP8 numerical comparison using base pi05 weights. No training labels or task success assumptions."
+}
