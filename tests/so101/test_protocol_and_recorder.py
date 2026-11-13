@@ -154,7 +154,10 @@ class LoopbackTests(unittest.TestCase):
             thread.join(1)
 
 
-@unittest.skipUnless(importlib.util.find_spec("jax"), "requires the cloud OpenPI training environment")
+@unittest.skipUnless(
+    all(importlib.util.find_spec(name) for name in ("jax", "flax", "augmax", "tyro", "orbax")),
+    "requires the complete OpenPI model environment (offline dependencies are insufficient)",
+)
 class ServingConfigTests(unittest.TestCase):
     def test_restore_lora_binding_and_warm_before_listening(self):
         import json
