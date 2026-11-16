@@ -24,36 +24,6 @@ flowchart LR
 
 这里的 DAgger 数据迭代指从策略访问状态收集人工纠正，再由人工复核并重新导出训练集；不自动将策略动作变成专家标签，不自动启动下一轮训练。
 
-## 已有性能证据
 
-2026-10-18，L40S，π0.5 基础权重，双路 224×224 图像、horizon 10；64 组真实校准观测和 64 组评估观测来自不重叠 episode。每配置预热 100 次，计时 3×200 次。
 
-| 后端 | 5 步去噪中位延迟 | 10 步去噪中位延迟 |
-|---|---:|---:|
-| JAX BF16 | 48.48 ms | 60.82 ms |
-| FlashRT BF16 | 27.21 ms | 34.11 ms |
-| FlashRT VLM FP8＋动作专家 BF16 | 21.07 ms | 28.46 ms |
 
-相对 JAX 的整体改善约 **2.30× / 2.14×**，包含运行时变化，且两者计时边界不同；同一 FlashRT 后端下的 FP8 收益约 **1.29× / 1.20×**。这些是历史离线延迟测试，不是完整机器人控制周期或量化后抓取成功率。[数据、误差与限制](docs/so101/performance.md)。
-
-![L40S 推理延迟对照](evidence/fp8-latency.png)
-
-## 不接机器人也能检查
-
-Python 3.11+，系统需有 FFmpeg。以下轻量依赖用于 SO101 数据边界与协议测试，模型相关检查需要完整 OpenPI 依赖，缺少时明确跳过。建议在独立虚拟环境中安装；完整训练另按项目依赖安装。
-
-```bash
-python -m pip install -r requirements-so101-offline.txt
-export PYTHONPATH="$PWD/src:$PWD/packages/openpi-client/src:${PYTHONPATH:-}"
-python -m unittest discover -s tests/so101 -v
-python scripts/so101/offline_acceptance.py --output /tmp/so101-acceptance-new
-python scripts/benchmarks/verify_published_results.py
-```
-
-验收输出目录必须不存在；合成夹具只验证软件，不代表训练效果。真机采集、微调、推理命令见 [操作指南](docs/so101/commands.md)。硬件采集必须显式指定 `--hardware`。
-
-## 项目边界与归属
-
-本仓库的 SO101 采集/数据/训练适配、异步策略及基准脚本是扩展工作；π0.5 模型来自 OpenPI，低精度内核来自外部 FlashRT。遵循仓库 [Apache-2.0](LICENSE) 及 [Gemma 条款](LICENSE_GEMMA.txt)。FlashRT 版本与调用方式见实验 provenance。
-
-当前公开材料尚不足以复核“30 条新增样本令成功率从 80% 到 90%”、抓取顺序消融或 RTC 平滑性效果，暂不把它们列为已验证结果。实际采集数据、微调权重和 GPU 运行环境未随仓库分发；完整重跑需要自行准备。
